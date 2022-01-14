@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Babylon Template</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+
+        <style>
+            html, body {
+                overflow: hidden;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            #submitButton {
+                margin-left: 6px;
+            }
+
+            #resetButton {
+                margin-left: 6px;
+            }
+
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+                touch-action: none;
+            }
+
+            #commandDiv {
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                position: absolute;
+                top: 0px;
+                margin: 2%;
+                vertical-align: center;
+                width: 60%;
+            }
+
+            #codeDiv {
+                position: absolute;
+                top: 60px;
+                margin-left: 20px;
+                color: white
+            }
+        </style>
+
+        <script src="https://cdn.babylonjs.com/babylon.js"></script>
+        <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+        <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+    </head>
+
+   <body>
+
+
+        <!--canvas that will be used to render the scene-->
+        <canvas id="renderCanvas" touch-action="none"></canvas>
+
+    <div id="commandDiv" >
+        <input class="form-control" id="commandInput" type="text" placeholder="Enter Natural Language Command (e.g. 'create a cube')">
+        <button type="submit" id="submitButton" onclick="sendCommand()" class="btn btn-primary mb-2">Enter</button>
+        <button type="submit" id="resetButton" onclick="reset()" class="btn btn-primary mb-2">Reset</button>
+        <div id= "codeDiv">
+            <p id="codeView"></p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script>
+        const canvas = document.getElementById("renderCanvas"); // Get the canvas element
+        const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+
+        // Add your code here matching the playground format
+        const createScene = function () {
+    
+            const scene = new BABYLON.Scene(engine);  
+
+            BABYLON.SceneLoader.ImportMeshAsync("", "https://assets.babylonjs.com/meshes/", "box.babylon");
+
+            const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
+            camera.attachControl(canvas, true);
+            camera.wheelPrecision = 5; //Mouse wheel speed
+
+            const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+
+            return scene;
+        };
+
+        const scene = createScene(); //Call the createScene function
+
+        // Register a render loop to repeatedly render the scene
+        engine.runRenderLoop(function () {
+                scene.render();
+        });
+        const sendCommand = function () {
+            const command = document.getElementById("commandInput").value;
+            console.log(
+                "Sending command: " + command
+            );
+            
+            fetch("http://localhost:1018/codegen", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json; charset=utf-8",
+                },
+                body: JSON.stringify({text: command})
+            }).then(response => response.json())
+            .then(data => {
+                console.log(data.code);
+                document.getElementById("codeView").innerText = data.code;
+                command.innterText = "";
+                eval(data.code);
+            })
+            .catch(error => console.error(error));
+        };
+
+        const reset = function () {
+            document.getElementById("codeView").innerText = "";
+                        
+            fetch("http://localhost:1018/reset")
+            .then(response => response.json())
+            .then(res => {
+                console.log(res);
+            })
+            .catch(error => console.error(error));
+        };
+
+        // Watch for browser/canvas resize events
+        window.addEventListener("resize", function () {
+                engine.resize();
+        });
+    </script>
+
+   </body>
+
+</html>
