@@ -1,4 +1,4 @@
-# Project
+# Akkadian
 
 Akkadian (likely to be renamed) was the dominant language in Babylon. This project uses [Codex](https://openai.com/blog/openai-codex/) and [BabylonJS](https://www.babylonjs.com/) to turn natural language into 3D scenes.
 
