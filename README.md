@@ -32,7 +32,7 @@ Example commands:
 
 ## Debugging
 
-The current debugging experiennce is basic:
+The current debugging experience is basic:
  - Observe logs in the Chrome dev tools (F12) to debug issues evaluating generated code
  - Observe logs in your console to debug issues between the Express server, Codex and the client
 
