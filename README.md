@@ -1,11 +1,10 @@
-# Project
+# Babylex
 
-This project uses [Codex](https://openai.com/blog/openai-codex/) and [BabylonJS](https://www.babylonjs.com/) to turn natural language into 3D scenes.
-
-Currently the app is a basic web application with an [Express](https://expressjs.com/) backend.
+This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/). Currently it is a basic web application with an [Express](https://expressjs.com/) backend.
 
 ## Requirements
 
+- Node.JS
 - Open AI API Key to make API calls against Codex
 
 ## Running the App
@@ -32,7 +31,7 @@ Example commands:
 
 ## Debugging
 
-The current debugging experiennce is basic:
+The current debugging experience is basic:
  - Observe logs in the Chrome dev tools (F12) to debug issues evaluating generated code
  - Observe logs in your console to debug issues between the Express server, Codex and the client
 
