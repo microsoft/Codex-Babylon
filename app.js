@@ -7,6 +7,7 @@ const fetch = require("isomorphic-fetch");
 
 const app = express();
 app.use(express.json());
+app.use(express.static(__dirname + '/public'));
 
 const port = process.env.PORT || 1018;
 

@@ -1,0 +1,39 @@
+html, body {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#submitButton {
+    margin-left: 6px;
+}
+
+#resetButton {
+    margin-left: 6px;
+}
+
+#renderCanvas {
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+}
+
+#commandDiv {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    position: absolute;
+    top: 0px;
+    margin: 2%;
+    vertical-align: center;
+    width: 60%;
+}
+
+#codeDiv {
+    position: absolute;
+    top: 60px;
+    margin-left: 20px;
+    color: white
+}
