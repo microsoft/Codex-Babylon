@@ -1,6 +1,6 @@
 # Babylex
 
-Akkadian (likely to be renamed) was the dominant language in Babylon. This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/). Currently it is a basic web application with an [Express](https://expressjs.com/) backend.
+This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/). Currently it is a basic web application with an [Express](https://expressjs.com/) backend.
 
 ## Requirements
 
