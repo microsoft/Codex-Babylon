@@ -4,6 +4,7 @@ Akkadian (likely to be renamed) was the dominant language in Babylon. This proje
 
 ## Requirements
 
+- Node.JS
 - Open AI API Key to make API calls against Codex
 
 ## Running the App
