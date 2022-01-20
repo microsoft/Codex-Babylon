@@ -9,11 +9,12 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 
 ## Running the App
 
-1. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file
-1. Add the Open AI API Key and the port you want to run the app to the .env file. The port is optional, and defaults to 1018
-1. Run `npm install` to gather the projects' dependencies
-1. Run `node app.js` to start the server
-1. Open the app in the browser
+1. `git pull` the repo: `git pull https://github.com/microsoft/Babylex` and open the Babylex folder
+2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file
+3. Add the Open AI API Key and the port you want to run the app to the .env file. The port is optional, and defaults to 1018
+4. Run `npm install` to gather the projects' dependencies
+5. Run `node app.js` to start the server
+6. Open the app in the browser
 
 ## Using the App
 
