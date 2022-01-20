@@ -3,6 +3,7 @@ const path = require('path');
 const getCompletion = require('./model.js').getCompletion;
 const resetPrompt = require('./model.js').resetPrompt;
 const prompt = require('./model.js').prompt;
+const getAssetURLs = require('./assets.js').getAssetURLs;
 const fetch = require("isomorphic-fetch");
 
 const app = express();
@@ -25,8 +26,19 @@ app.post('/codegen', async (req, res) => {
 
 // Gets natural language and returns code
 app.get('/reset', async (_req, res) => {
-    resetPrompt();
-    res.send(JSON.stringify({prompt}));
+	resetPrompt();
+	res.send(JSON.stringify({
+		prompt
+	}));
+});
+
+// GET asset URLs
+app.get('/assetUrls', async (req, res) => {
+	let asset = req.query.text;
+	let response = await getAssetURLs(asset);
+	res.send(JSON.stringify({
+		text: response
+	}));
 });
 
 app.listen(port, () => {
