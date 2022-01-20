@@ -1,7 +1,7 @@
 // Contains the helper methods for interacting with Codex and crafting model prompts
 
 require('dotenv').config();
-const basePrompt = require("./prompts/prompt1").basePrompt;
+const basePrompt = require("./prompts/prompt2").basePrompt;
 
 console.log(basePrompt);
 
