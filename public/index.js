@@ -64,11 +64,15 @@ const reset = function () {
 
 // Get the asset URL for the given asset name
 const getAssetUrl = async function (asset) {
-    const response = await fetch(`http://localhost:1018/assetUrls?text=${asset}`);
-    const data = await response.json();
-    return data.text;
+	const response = await fetch(`http://localhost:1018/assetUrls?text=${asset}`);
+	const data = await response.json();
+	if (data.text.length > 0) {
+		return data.text;
+	} else {
+		return null;
+	}
 };
 
 const evalAsync = async function (code) {
-    await eval("(async () => { " + code + "})()");
+	await eval("(async () => { " + code + "})()");
 }

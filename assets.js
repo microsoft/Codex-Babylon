@@ -24,14 +24,14 @@ async function getAssetURLs(query) {
 			})
 		});
 
-        if(!response.ok) {
-            throw new Error(`${response.status} ${response.statusText}`);
-        }
+	if (!response.ok) {
+		throw new Error(`${response.status} ${response.statusText}`);
+	}
 
-        const json = await response.json();
-        return json.Result.PartGroups[0].TextParts[3].Text;
+	const json = await response.json();
+	return (json.Result.PartGroups[0]) ? json.Result.PartGroups[0].TextParts[3].Text : "";
 }
 
 module.exports = {
-    getAssetURLs
+	getAssetURLs
 }
