@@ -6,9 +6,6 @@ const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engi
 const createScene = function () {
 
 	const scene = new BABYLON.Scene(engine);
-
-	BABYLON.SceneLoader.ImportMeshAsync("", "https://assets.babylonjs.com/meshes/", "box.babylon");
-
 	const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2.5, 15, new BABYLON.Vector3(0, 0, 0));
 	camera.attachControl(canvas, true);
 	camera.wheelPrecision = 5;
@@ -29,7 +26,7 @@ window.addEventListener("resize", function () {
 	engine.resize();
 });
 
-// CODEX CODE
+// CODEX CODE (calls the Express Server)
 
 const sendCommand = function () {
 	const command = document.getElementById("commandInput").value;
@@ -50,7 +47,7 @@ const sendCommand = function () {
 			console.log(data.code);
 			document.getElementById("codeView").innerText = data.code;
 			command.innterText = "";
-			eval(data.code);
+			evalAsync(data.code);
 		})
 		.catch(error => console.error(error));
 };
@@ -64,3 +61,14 @@ const reset = function () {
 		})
 		.catch(error => console.error(error));
 };
+
+// Get the asset URL for the given asset name
+const getAssetUrl = async function (asset) {
+    const response = await fetch(`http://localhost:1018/assetUrls?text=${asset}`);
+    const data = await response.json();
+    return data.text;
+};
+
+const evalAsync = async function (code) {
+    await eval("(async () => { " + code + "})()");
+}
