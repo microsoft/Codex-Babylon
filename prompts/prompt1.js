@@ -1,10 +1,5 @@
 let basePrompt = `/* This document contains a BabylonJS scene, natural language commands and the BabylonJS code needed to accomplish them */
 
-// Register a render loop to repeatedly render the scene
-engine.runRenderLoop(function () {
-        scene.render();
-});
-
 /* Make the light more intense */
 BABYLON.Engine.LastCreatedScene.lights[0].intensity = 10
 
@@ -70,8 +65,14 @@ for (let i = 0; i < torusArray.length; i++) {
     torusArray[i].dispose();
 }
 torusArray = null;
+
+/* Help me troubleshoot */
+scene.debugLayer.show();
+
+/* Now hide it */
+scene.debugLayer.hide();
 `;
 
 module.exports = {
-    basePrompt
+	basePrompt
 };
