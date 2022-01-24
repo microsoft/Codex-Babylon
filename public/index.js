@@ -15,7 +15,7 @@ const createScene = function () {
 	return scene;
 };
 
-const scene = createScene();
+let scene = createScene();
 
 engine.runRenderLoop(function () {
 	scene.render();
@@ -29,10 +29,8 @@ window.addEventListener("resize", function () {
 // CODEX CODE (calls the Express Server)
 
 const sendCommand = function () {
-	const command = document.getElementById("commandInput").value;
-	console.log(
-		"Sending command: " + command
-	);
+	const nlCommand = document.getElementById("commandInput").value;
+	console.log("Sending natural language command: " + nlCommand);
 
 	fetch(`http://localhost:1018/codegen`, {
 			method: "POST",
@@ -40,13 +38,13 @@ const sendCommand = function () {
 				"Content-Type": "application/json; charset=utf-8",
 			},
 			body: JSON.stringify({
-				text: command
+				text: nlCommand
 			})
 		}).then(response => response.json())
 		.then(data => {
-			console.log(data.code);
+			console.log(`Received the following code: ${data.code}`);
 			document.getElementById("codeView").innerText = data.code;
-			command.innterText = "";
+			nlCommand.innterText = "";
 			evalAsync(data.code);
 		})
 		.catch(error => console.error(error));
@@ -54,25 +52,36 @@ const sendCommand = function () {
 
 const reset = function () {
 	document.getElementById("codeView").innerText = "";
+	console.log("resetting prompt");
 	fetch("http://localhost:1018/reset")
 		.then(response => response.json())
 		.then(res => {
-			console.log(res);
+			console.log(`Reset prompt: ${res.prompt}`);
 		})
 		.catch(error => console.error(error));
+
+	resetScene();
 };
 
 // Get the asset URL for the given asset name
-const getAssetUrl = async function (asset) {
+const getAssetUrls = async function (asset) {
 	const response = await fetch(`http://localhost:1018/assetUrls?text=${asset}`);
 	const data = await response.json();
-	if (data.text.length > 0) {
-		return data.text;
-	} else {
-		return null;
-	}
+	let urls = [];
+	data.PartGroups.forEach(partGroup => {
+		if (partGroup.TextParts[3]) {
+			urls.push(partGroup.TextParts[3].Text);
+		}
+	});
+
+	return urls;
 };
 
 const evalAsync = async function (code) {
 	await eval("(async () => { " + code + "})()");
+}
+
+const resetScene = function () {
+	scene.dispose();
+	scene = createScene();
 }

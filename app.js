@@ -18,9 +18,8 @@ app.get('/', (_req, res) => {
 
 // Gets natural language and returns code
 app.post('/codegen', async (req, res) => {
-	console.log(req.body);
-	let response = await getCompletion(req.body.text);
-	// respond with code
+	console.log(`Received request for code generated for the following natural language command: '${req.body.text}'`);
+	const response = await getCompletion(req.body.text);
 	res.send(JSON.stringify(response));
 });
 
@@ -35,12 +34,10 @@ app.get('/reset', async (_req, res) => {
 // GET asset URLs
 app.get('/assetUrls', async (req, res) => {
 	let asset = req.query.text;
-	let response = await getAssetURLs(asset);
-	res.send(JSON.stringify({
-		text: response
-	}));
+	const response = await getAssetURLs(asset);
+	res.send(JSON.stringify(response));
 });
 
 app.listen(port, () => {
-	console.log(`Example app listening at http://localhost:${port}`)
+	console.log(`Babylex webapp listening at http://localhost:${port}`)
 });

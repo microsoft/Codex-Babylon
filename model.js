@@ -3,8 +3,6 @@
 require('dotenv').config();
 const basePrompt = require("./prompts/prompt2").basePrompt;
 
-console.log(basePrompt);
-
 // CURRENTLY SINGLE TENANT - WOULD NEED TO UPDATE THIS TO A MAP OF TENANT IDs TO PROMPTS TO MAKE MULTI-TENANT
 let prompt = basePrompt;
 
@@ -49,7 +47,7 @@ const resetPrompt = () => {
 const updatePrompt = (query, code) => {
 	prompt = `${prompt}\n/* ${query} */\n${code}`;
 	prompt = prompt.split('\n').slice(0, -1).join('\n');
-	console.log(prompt);
+	console.log(`Updated prompt with ${query}`);
 }
 
 // export functions

@@ -68,24 +68,32 @@ torusArray = null;
 
 /* Create a chair! */
 // No primitive called chair - call external library
-url = await getAssetUrl("chair");
-if (url) {
-    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", url, scene);
-    chair = result.meshes[0];
+chairUrls = await getAssetUrls("chair");
+if (chairAssets[0]) {
+    console.log("url: ", chairAssets[0]);
+    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", chairUrls[0], scene);
+    chair0 = result.meshes[0];
     scene.createDefaultCamera(true, true, true);
 } else {
     console.log("Could not find chair asset");
 }
 
-/* Make another next to it */
-// Already have url - no need to call getAssetUrl
-result = await BABYLON.SceneLoader.ImportMeshAsync("", "", url, scene);
-chair2 = result.meshes[0];
-chair2.position.x += 0.5;
-scene.createDefaultCamera(true, true, true);
+/* try a different chair next to it*/
+// Already have chair urls - no need to call getAssetUrls
+result = await BABYLON.SceneLoader.ImportMeshAsync("", "", chairUrls[1], scene);
+chair1 = result.meshes[0];
+chair1.position.x += 1;
 
-/* Delete it now */
-chair.dispose();
+/* Now make a third type in front of it! */
+// Already have chair urls - no need to call getAssetUrls
+result = await BABYLON.SceneLoader.ImportMeshAsync("", "", chairUrls[2], scene);
+chair2 = result.meshes[0];
+chair2.position.z += 1;
+
+/* Delete all the chairs */
+chair0.dispose();
+chair1.dispose();
+chair2.dispose();
 
 /* Help me troubleshoot */
 scene.debugLayer.show();
@@ -95,66 +103,71 @@ scene.debugLayer.hide();
 
 /* Now make a lion */
 // No primitive called lion - call external library
-url = await getAssetUrl("lion");
-if (url) {
-    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", url, scene);
-    lion = result.meshes[0];
+lionUrls = await getAssetUrls("lion");
+if (lionUrls[0]) {
+    console.log("lion url: ", lionUrls[0]);
+    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", lionUrls[0], scene);
+    lion0 = result.meshes[0];
     scene.createDefaultCamera(true, true, true);
 } else {
     console.log("Could not find lion asset");
 }
 
 /* Remove it */
-lion.dispose();
+lion0.dispose();
 
 /* Create something spooky! */
 // Ghosts are spooky
 // No primitive called ghost - call external library
-url = await getAssetUrl("ghost");
-if (url) {
-    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", url, scene);
-    ghost = result.meshes[0];
+ghostUrls = await getAssetUrls("ghost");
+if (ghostUrls[0]) {
+    console.log("ghost url: ", ghostUrls[0]);
+    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", ghostUrls[0], scene);
+    ghost0 = result.meshes[0];
     scene.createDefaultCamera(true, true, true);
 } else {
     console.log("Could not find ghost asset");
 }
 
 /* get rid of the ghosts */
-ghost.dispose();
+ghost0.dispose();
 
 /* Create three sea creatures */
 // Calling external library for a shark, octopus, and fish
-url = await getAssetUrl("shark");
-if (url) {
-    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", url, scene);
-    shark = result.meshes[0];
+sharkUrls = await getAssetUrls("shark");
+if (sharkUrls[0]) {
+    console.log("shark url: ", sharkUrls[0]);
+    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", sharkUrls[0], scene);
+    shark0 = result.meshes[0];
     scene.createDefaultCamera(true, true, true);
 } else {
     console.log("Could not find shark asset");
 }
 
-url = await getAssetUrl("octopus");
-if (url) {
-    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", url, scene);
-    octopus = result.meshes[0];
+octopusUrls = await getAssetUrls("octopus");
+if (octopusUrls[0]) {
+    console.log("octopus url: ", octopusUrls[0]);
+    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", octopusUrls[0], scene);
+    octopus0 = result.meshes[0];
     scene.createDefaultCamera(true, true, true);
 } else {
     console.log("Could not find octopus asset");
 }
 
-url = await getAssetUrl("fish");
-if (url) {
-    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", url, scene);
-    fish = result.meshes[0];
+fishUrls= await getAssetUrls("fish");
+if (fishUrls[0]) {
+    console.log("fish url: ", fishUrls[0]);
+    result = await BABYLON.SceneLoader.ImportMeshAsync("", "", fishUrls[0], scene);
+    fish0 = result.meshes[0];
     scene.createDefaultCamera(true, true, true);
 } else {
     console.log("Could not find fish asset");
 }
 
 /* delete them */
-shark.dispose();
-octopus.dispose();
-fish.dispose();
+shark0.dispose();
+octopus0.dispose();
+fish0.dispose();
 
 /* make url undefined */
 url = undefined;

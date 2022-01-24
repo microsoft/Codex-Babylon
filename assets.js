@@ -4,6 +4,7 @@ Do a POST with this JSON for instance:  {"type":"Search","pageSize":30,"query":"
 */
 
 async function getAssetURLs(query) {
+	console.log(`Searching for ${query}`);
 	const response = await fetch(
 		'https://hubble.officeapps.live.com/mediasvc/api/media/search?v=1&lang=en-US', {
 			method: 'POST',
@@ -29,7 +30,7 @@ async function getAssetURLs(query) {
 	}
 
 	const json = await response.json();
-	return (json.Result.PartGroups[0]) ? json.Result.PartGroups[0].TextParts[3].Text : "";
+	return json.Result;
 }
 
 module.exports = {
