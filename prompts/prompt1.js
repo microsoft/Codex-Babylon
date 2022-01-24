@@ -66,6 +66,23 @@ for (let i = 0; i < torusArray.length; i++) {
 }
 torusArray = null;
 
+/* make 50 cubes side by side */
+cubes = [];
+for (let i = 0; i < 50; i++) {
+    cubes[i] = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, BABYLON.Engine.LastCreatedScene);
+    cubes[i].position.x = i;
+}
+
+/* stack them like stairs */
+for (let i = 0; i < 50; i++) {
+    cubes[i].position.y = i;
+}
+
+/* delete them */
+for (let i = 0; i < 50; i++) {
+    cubes[i].dispose();
+}
+
 /* Help me troubleshoot */
 scene.debugLayer.show();
 
