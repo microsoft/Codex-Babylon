@@ -16,6 +16,7 @@ const createScene = function () {
 };
 
 let scene = createScene();
+let state = {};
 
 engine.runRenderLoop(function () {
 	scene.render();
@@ -84,4 +85,5 @@ const evalAsync = async function (code) {
 const resetScene = function () {
 	scene.dispose();
 	scene = createScene();
+	state = {};
 }
