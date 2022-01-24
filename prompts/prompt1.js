@@ -1,5 +1,7 @@
 let basePrompt = `/* This document contains a BabylonJS scene, natural language commands and the BabylonJS code needed to accomplish them */
 
+let state = {};
+
 /* Make the light more intense */
 BABYLON.Engine.LastCreatedScene.lights[0].intensity = 10
 
@@ -7,54 +9,54 @@ BABYLON.Engine.LastCreatedScene.lights[0].intensity = 10
 BABYLON.Engine.LastCreatedScene.lights[0].intensity = 1
 
 /* Make a cube */
-cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, BABYLON.Engine.LastCreatedScene);
+state.cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, BABYLON.Engine.LastCreatedScene);
 
 /* Move the cube up */
-cube.position.y += 1
+state.cube.position.y += 1
 
 /* Move it to the left */
-cube.position.x -= 1
+state.cube.position.x -= 1
 
 /* Make it change color when the mouse is over it */
-cube.actionManager = new BABYLON.ActionManager(BABYLON.Engine.LastCreatedScene);
+state.cube.actionManager = new BABYLON.ActionManager(BABYLON.Engine.LastCreatedScene);
 
-hoverAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function () {
-cube.material = new BABYLON.StandardMaterial("mat", BABYLON.Engine.LastCreatedScene);
-cube.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
+state.hoverAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOverTrigger, function () {
+state.cube.material = new BABYLON.StandardMaterial("mat", BABYLON.Engine.LastCreatedScene);
+state.cube.material.diffuseColor = new BABYLON.Color3(1, 0, 0);
 });
 
 unHoverAction = new BABYLON.ExecuteCodeAction(BABYLON.ActionManager.OnPointerOutTrigger, function () {
-cube.material = new BABYLON.StandardMaterial("mat", BABYLON.Engine.LastCreatedScene);
-cube.material.diffuseColor = new BABYLON.Color3(0, 1, 1);
+state.cube.material = new BABYLON.StandardMaterial("mat", BABYLON.Engine.LastCreatedScene);
+state.cube.material.diffuseColor = new BABYLON.Color3(0, 1, 1);
 });
 
-cube.actionManager.registerAction(hoverAction);
-cube.actionManager.registerAction(unHoverAction);
+state.cube.actionManager.registerAction(hoverAction);
+state.cube.actionManager.registerAction(unHoverAction);
 
 /* Make the block teal */
-cube.material = new BABYLON.StandardMaterial("mat", BABYLON.Engine.LastCreatedScene);
-cube.material.diffuseColor = new BABYLON.Color3(0, 1, 1);
+state.cube.material = new BABYLON.StandardMaterial("mat", BABYLON.Engine.LastCreatedScene);
+state.cube.material.diffuseColor = new BABYLON.Color3(0, 1, 1);
 
 /* Now make it spin */
-spinningCube = setInterval(() => {
+state.spinningCube = setInterval(() => {
     BABYLON.Engine.LastCreatedScene.meshes[0].rotation.y += 0.02
 }, 10)
 
 /* Make it stop */
-clearInterval(spinningCube)
+clearInterval(state.spinningCube)
 
 /* Put a sphere on top of the cube */
-sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1}, BABYLON.Engine.LastCreatedScene)
-sphere.position.y = 1
+state.sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1}, BABYLON.Engine.LastCreatedScene)
+state.sphere.position.y = 1
 
 /* create a series of larger and larger concentric torusses, like a tornado */
-torus = BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 1, thickness: 0.1}, BABYLON.Engine.LastCreatedScene);
+state.torus = BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 1, thickness: 0.1}, BABYLON.Engine.LastCreatedScene);
 
-torusArray = [];
+state.torusArray = [];
 
 for (let i = 0; i < 10; i++) {
-    torusArray.push(BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 1 + i, thickness: 0.1}, BABYLON.Engine.LastCreatedScene));
-    torusArray[i].position.y = i;
+    state.torusArray.push(BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 1 + i, thickness: 0.1}, BABYLON.Engine.LastCreatedScene));
+    state.torusArray[i].position.y = i;
 }
 
 /* Delete the sphere */
@@ -62,25 +64,25 @@ BABYLON.Engine.LastCreatedScene.meshes[1].dispose()
 
 /* Delete the torusses */
 for (let i = 0; i < torusArray.length; i++) {
-    torusArray[i].dispose();
+    state.torusArray[i].dispose();
 }
-torusArray = null;
+state.torusArray = null;
 
 /* make 50 cubes side by side */
-cubes = [];
+state.cubes = [];
 for (let i = 0; i < 50; i++) {
-    cubes[i] = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, BABYLON.Engine.LastCreatedScene);
-    cubes[i].position.x = i;
+    state.cubes[i] = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, BABYLON.Engine.LastCreatedScene);
+    state.cubes[i].position.x = i;
 }
 
 /* stack them like stairs */
 for (let i = 0; i < 50; i++) {
-    cubes[i].position.y = i;
+    state.cubes[i].position.y = i;
 }
 
 /* delete them */
 for (let i = 0; i < 50; i++) {
-    cubes[i].dispose();
+    state.cubes[i].dispose();
 }
 
 /* Help me troubleshoot */
