@@ -47,7 +47,7 @@ const resetPrompt = () => {
 const updatePrompt = (query, code) => {
 	prompt = `${prompt}\n/* ${query} */\n${code}`;
 	prompt = prompt.split('\n').slice(0, -1).join('\n');
-	console.log(`Updated prompt with ${query}`);
+	console.log(`Updated prompt with '${query}' and '${code}'`);
 }
 
 // export functions
