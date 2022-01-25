@@ -13,19 +13,20 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file
 3. Add the Open AI API Key and the port you want to run the app to the .env file. The port is optional, and defaults to 1018
 4. Run `npm install` to gather the projects' dependencies
-5. Run `node app.js` to start the server
-6. Open the app in the browser
+5. Run `npm run build`
+6. Run `node app.js` to start the server
+7. Open the app in the browser (ex: [localhost](http://localhost:1018/))
 
 ## Using the App
 
 The app consists of a basic text box to enter natural language commands, and a 3D scene to display the results. Enter commands into the text box and press enter to see the results. Note that conversation context is maintained between commands, so subsequent commands can refer back to previous ones.
 
-Example commands: 
-  
+Example commands:
+
   > _Create a cube_
-  
+
   > _Make it red and make it spin_
-  
+
   >_Put a teal sphere above it and another below it_
 
   > _Make the bottom sphere change colors when the cursor hovers over it_
@@ -66,8 +67,8 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## Trademarks
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
+This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
+trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
