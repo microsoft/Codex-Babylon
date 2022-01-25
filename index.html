@@ -21,6 +21,9 @@
         <input class="form-control" id="commandInput" type="text" placeholder="Enter Natural Language Command (e.g. 'create a cube')">
         <button type="submit" id="submitButton" onclick="sendCommand()" class="btn btn-primary mb-2">Enter</button>
         <button type="submit" id="resetButton" onclick="reset()" class="btn btn-primary mb-2">Reset</button>
+        <button type="submit" id="redoButton" onclick="undo()" class="btn btn-primary mb-2">Undo</button>
+        <button type="submit" id="redoButton" onclick="redo()" class="btn btn-primary mb-2">Redo</button>
+
         <div id= "codeDiv">
             <p id="codeView"></p>
         </div>

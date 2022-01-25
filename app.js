@@ -31,7 +31,7 @@ app.get('/reset', async (_req, res) => {
 	}));
 });
 
-// GET asset URLs
+// Gets asset URLs
 app.get('/assetUrls', async (req, res) => {
 	let asset = req.query.text;
 	const response = await getAssetURLs(asset);

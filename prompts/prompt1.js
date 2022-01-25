@@ -75,11 +75,6 @@ for (let i = 0; i < 50; i++) {
     state.cubes[i].position.x = i;
 }
 
-/* stack them like stairs */
-for (let i = 0; i < 50; i++) {
-    state.cubes[i].position.y = i;
-}
-
 /* delete them */
 for (let i = 0; i < 50; i++) {
     state.cubes[i].dispose();

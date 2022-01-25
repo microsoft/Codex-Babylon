@@ -2,6 +2,8 @@ const canvas = document.getElementById("renderCanvas"); // Get the canvas elemen
 const engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
 // BABYLON CODE
+let sceneStack = [];
+let sceneQueue = [];
 
 const createScene = function () {
 
@@ -11,6 +13,12 @@ const createScene = function () {
 	camera.wheelPrecision = 5;
 
 	const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(1, 1, 0));
+	const serializedScene = BABYLON.SceneSerializer.Serialize(scene);
+
+	sceneStack.push({
+		scene: JSON.stringify(serializedScene),
+		state: {}
+	});
 
 	return scene;
 };
@@ -47,6 +55,11 @@ const sendCommand = function () {
 			document.getElementById("codeView").innerText = data.code;
 			nlCommand.innterText = "";
 			evalAsync(data.code);
+		    const serializedScene = BABYLON.SceneSerializer.Serialize(scene);
+			sceneStack.push({
+				scene: JSON.stringify(serializedScene),
+				state
+			});
 		})
 		.catch(error => console.error(error));
 };
@@ -63,6 +76,22 @@ const reset = function () {
 
 	resetScene();
 };
+
+const undo = function () {
+	console.log("Undoing...");
+	if (sceneStack.length > 1) {
+		sceneQueue.push(sceneStack.pop());
+	}
+	loadScene(sceneStack[sceneStack.length - 1].scene, state);
+};
+
+const redo = function () {
+	console.log("Redoing...");
+	if (sceneQueue.length > 1) {
+		sceneStack.push(sceneQueue.shift());
+	}
+	loadScene(sceneStack[sceneStack.length - 1].scene, state);
+}
 
 // Get the asset URL for the given asset name
 const getAssetUrls = async function (asset) {
@@ -83,7 +112,15 @@ const evalAsync = async function (code) {
 }
 
 const resetScene = function () {
+	sceneStack = [];
 	scene.dispose();
 	scene = createScene();
 	state = {};
+}
+
+const loadScene = function (newScene, newState) {
+	// Render serialized scene
+	scene.dispose();
+	scene = BABYLON.SceneLoader.Load(newScene, "newScene");
+	state = newState;
 }
