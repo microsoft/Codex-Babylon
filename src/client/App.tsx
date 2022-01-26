@@ -10,9 +10,10 @@ interface customWindow extends Window {
 declare const window: customWindow;
 
 export default function App() {
-    console.log("App rerendered");
-
+    console.log("App rendered");
     const canvasRef = useRef<HTMLCanvasElement>(null);
+
+    // TODO: should we create provider for these global states?
     let engine: any = null;
     let scene: any = null;
     let state: any = {};
