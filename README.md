@@ -1,6 +1,6 @@
 # Babylex
 
-This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/). Currently it is a basic web application with an [Express](https://expressjs.com/) backend.
+This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/). It is a React web application with an [Express](https://expressjs.com/) backend.
 
 ## Requirements
 
@@ -13,8 +13,7 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file
 3. Add the Open AI API Key and the port you want to run the app to the .env file. The port is optional, and defaults to 1018
 4. Run `npm install` to gather the projects' dependencies
-5. Run `node app.js` to start the server
-6. Open the app in the browser
+5. Run `npm start` to serve the backend and launch the web application.
 
 ## Using the App
 
@@ -31,16 +30,21 @@ Example commands:
   > _Make the bottom sphere change colors when the cursor hovers over it_
 
 ## Debugging
+To debug the web application, you can [debug with VSCode debugger](https://code.visualstudio.com/Docs/editor/debugging).
 
-The current debugging experience is basic:
+To debug the code generated from codex, the current debugging experience is basic:
  - Observe logs in your browser dev tools (F12) to debug issues evaluating generated code
  - Observe logs in your console to debug issues between the Express server, Codex and the client
 
 ## Understand the Code
-
-- `app.js` is the main entry point for the app. It sets up the Express serves and serves the client
-- `model.js` manages interaction the Codex API. This uses `isomorphic-fetch` to make POST calls of natural language to be converted to code. It also includes helper methods for engineering the prompt that is sent to Codex (see "prompt engineering" below)
+The server and client code is under `src/`.
+### Client (src/client)
+- `index.tsx` is the entry to bootstrap the React web application.
 - `index.html` is the barebones main view of the app. It uses Bootstrap for basic styling
+
+### Server (src/server)
+- `app.js` is the main entry point for the app. It sets up the Express to serve RESTful APIs.
+- `model.js` manages interaction the Codex API. This uses `isomorphic-fetch` to make POST calls of natural language to be converted to code. It also includes helper methods for engineering the prompt that is sent to Codex (see "prompt engineering" below)
 
 ## Prompt Engineering
 
