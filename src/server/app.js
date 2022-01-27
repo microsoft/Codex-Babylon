@@ -11,8 +11,8 @@ const app = express();
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
-const port = process.env.PORT || 1018;
-app.use(cors({origin: 'http://localhost:3000'}));
+const port = process.env.SERVER_PORT;
+app.use(cors({origin: `http://localhost:${process.env.CLIENT_PORT}`}));
 
 app.get('/', (_req, res) => {
 	res.sendFile(path.join(__dirname, '/index.html'));

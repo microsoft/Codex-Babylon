@@ -8,6 +8,7 @@ interface IFormProps {
 }
 
 export default function Form({ scene, state, createScene }: IFormProps) {
+    const serverUrl = `http://localhost:${process.env.SERVER_PORT}`;
     const inputRef = useRef<HTMLInputElement>(null);
     const codeDivRef = useRef<HTMLDivElement>(null);
 
@@ -39,7 +40,7 @@ export default function Form({ scene, state, createScene }: IFormProps) {
                             "Sending natural language command: " + nlCommand
                         );
 
-                        fetch(`http://localhost:1018/codegen`, {
+                        fetch(`${serverUrl}/codegen`, {
                             method: "POST",
                             headers: {
                                 "Content-Type":
@@ -76,7 +77,7 @@ export default function Form({ scene, state, createScene }: IFormProps) {
                             codeDivRef.current.innerText = "";
                         }
                         console.log("resetting prompt");
-                        fetch("http://localhost:1018/reset")
+                        fetch(`${serverUrl}/reset`)
                             .then((response) => response.json())
                             .then((res) => {
                                 console.log(`Reset prompt: ${res.prompt}`);

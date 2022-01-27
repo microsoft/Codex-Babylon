@@ -1,8 +1,8 @@
 var webpack = require("webpack");
-var htmlWebpackPlugin = require("html-webpack-plugin");
-var cleanWebpackPlugin = require("clean-webpack-plugin");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var { CleanWebpackPlugin } = require("clean-webpack-plugin");
 var path = require("path");
-var settings = require("./settings");
+require("dotenv").config();
 
 module.exports = {
     entry: {
@@ -15,7 +15,7 @@ module.exports = {
     devtool: "inline-source-map",
     devServer: {
         open: true,
-        port: 3000
+        port: process.env.CLIENT_PORT
     },
     module: {
         rules: [
@@ -42,18 +42,22 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, "../../dist/client"),
-        publicPath: "http://localhost:3000/",
+        publicPath: `http://localhost:${process.env.CLIENT_PORT}/`,
         filename: "[name].[fullhash].js",
         chunkFilename: "[name].bundle.js"
     },
     plugins: [
-        new cleanWebpackPlugin.CleanWebpackPlugin({
+        new CleanWebpackPlugin({
             cleanOnceBeforeBuild: ["../../dist"]
         }),
-        new htmlWebpackPlugin({
-            template: path.join(__dirname, "../src/client/index.html"),
-            filename: "index.html"
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, "./src/client/index.html")
         }),
-        new webpack.DefinePlugin(settings)
+        new webpack.DefinePlugin({
+            "process.env": {
+                CLIENT_PORT: JSON.stringify(process.env.CLIENT_PORT),
+                SERVER_PORT: JSON.stringify(process.env.SERVER_PORT)
+            }
+        })
     ]
 };
