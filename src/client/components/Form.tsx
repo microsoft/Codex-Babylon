@@ -64,7 +64,7 @@ export default function Form() {
         // reset
         resetBabylonScene();
         resetCodexState();
-    });
+    }, []);
 
     return (
         <>
