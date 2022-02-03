@@ -3,7 +3,7 @@ let basePrompt = `/* This document contains a BabylonJS scene, natural language 
 /* make 50 cubes side by side */
 state.cubes = [];
 for (let i = 0; i < 50; i++) {
-    state.cubes[i] = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, BABYLON.Engine.LastCreatedScene);
+    state.cubes[i] = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, scene);
     state.cubes[i].position.x = i;
 }
 
