@@ -6,9 +6,7 @@ export async function getAssetUrls(asset) {
         `http://localhost:1018/assetUrls?text=${asset}`
     );
     const data = await response.json();
-    // Each part group in the data (data.partGroup) contains a TextParts array where the fourth element is the asset URL. Return all assetUrls
-
-    return data.PartGroups.map(
-        (part) => part && part.TextParts && part.TextParts[3]
-    );
+    return data.PartGroups.filter(
+        partGroup => partGroup.TextParts && partGroup.TextParts[3] && partGroup.TextParts[3].Text
+    ).map(partGroup => partGroup.TextParts[3].Text);
 }
