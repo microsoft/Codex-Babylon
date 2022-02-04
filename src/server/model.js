@@ -1,22 +1,31 @@
 // Contains the helper methods for interacting with Codex and crafting model prompts
 
 require('dotenv').config();
-const basePrompt = require("./prompts/prompt2").basePrompt;
+const basePrompt = require("./prompts/prompt1").basePrompt;
+const Prompt = require("./Prompt").Prompt;
+
+const maxLengthOfPrompt = 3500;
 
 // CURRENTLY SINGLE TENANT - WOULD NEED TO UPDATE THIS TO A MAP OF TENANT IDs TO PROMPTS TO MAKE MULTI-TENANT
-let prompt = basePrompt;
+let prompt = new Prompt(basePrompt);
 
-async function getCompletion(query) {
+async function getCompletion(command) {
+	let promptWithCommand = prompt.getPromptWithCommand(command);
+	console.log(`Length of prompt: ${promptWithCommand.length}`);
+	if (promptWithCommand.length > maxLengthOfPrompt) {
+		prompt.trimPrompt(maxLengthOfPrompt - command.length);
+	}
+
 	const response = await fetch(
-		'https://api.openai.com/v1/engines/davinci-codex-msft/completions', {
+		'https://api.openai.com/v1/engines/cushman-codex-msft/completions', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${process.env.CODEX_API_KEY}`
 			},
 			body: JSON.stringify({
-				prompt: `${prompt}\n\n/* ${query} */\n`,
-				max_tokens: 400,
+				prompt: prompt.getPromptWithCommand(command),
+				max_tokens: 800,
 				temperature: 0,
 				stop: "/*",
 				n: 1
@@ -31,7 +40,7 @@ async function getCompletion(query) {
 
 	const json = await response.json();
 	let code = json.choices[0].text;
-	updatePrompt(query, code);
+	prompt.addInteraction(command, code);
 
 	return {
 		code,
@@ -39,20 +48,8 @@ async function getCompletion(query) {
 	};
 }
 
-const resetPrompt = () => {
-	console.log("resetting prompt");
-	prompt = basePrompt;
-}
-
-const updatePrompt = (query, code) => {
-	prompt = `${prompt}\n/* ${query} */\n${code}`;
-	prompt = prompt.split('\n').slice(0, -1).join('\n');
-	console.log(`Updated prompt with '${query}' and '${code}'`);
-}
-
 // export functions
 module.exports = {
 	getCompletion,
-	resetPrompt,
 	prompt
 }

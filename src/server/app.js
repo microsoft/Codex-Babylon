@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const getCompletion = require('./model.js').getCompletion;
-const resetPrompt = require('./model.js').resetPrompt;
 const prompt = require('./model.js').prompt;
 const getAssetURLs = require('./assets.js').getAssetURLs;
 const fetch = require("isomorphic-fetch");
@@ -20,16 +19,16 @@ app.get('/', (_req, res) => {
 
 // Gets natural language and returns code
 app.post('/codegen', async (req, res) => {
-	console.log(`Received request for code generated for the following natural language command: '${req.body.text}'`);
+	console.log(`Received natural language command: '${req.body.text}'`);
 	const response = await getCompletion(req.body.text);
 	res.send(JSON.stringify(response));
 });
 
 // Gets natural language and returns code
 app.get('/reset', async (_req, res) => {
-	resetPrompt();
+	prompt.resetPrompt();
 	res.send(JSON.stringify({
-		prompt
+		prompt: prompt.getPrompt()
 	}));
 });
 
