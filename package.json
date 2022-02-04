@@ -7,6 +7,7 @@
     "start": "concurrently \"npm:serve:*\" -k",
     "serve:server": "nodemon ./src/server/app.js",
     "serve:client": "webpack-dev-server --color --config ./webpack.config.js",
+    "build:client": "webpack --env prod --env clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
