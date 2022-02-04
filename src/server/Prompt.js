@@ -1,9 +1,10 @@
+// Class for creating and managing a prompt for Codex. Prompts are modelled as a series of commands (comments) and the code needed to accomplish them. 
 class Prompt {
 	constructor(contextText) {
 		this.contextText = contextText;
 		this.prompt = contextText;
 
-		this.contextInteractions = this.parseInteractions(contextText);
+		this.contextInteractions = this.createInteractionsFromPrompt(contextText);
 		this.interactions = this.contextInteractions;
 	}
 
@@ -27,18 +28,11 @@ class Prompt {
 		});
 	}
 
-	// Creates prompt using interactions (commands and code), modelling the commands as comments
-	recreatePrompt() {
-		this.prompt = this.interactions.reduce((prev, next) => {
-			return `${prev}\n/* ${next.command} */\n${next.code}`;
-		}, "");
-	}
-
 	// Removes the last interaction, "forgetting" it
 	undoInteraction() {
 		if (this.interactions.length > 0) {
 			this.interactions.pop();
-			this.recreatePrompt();
+			this.createPromptFromInteractions();
 		}
 	}
 
@@ -55,13 +49,21 @@ class Prompt {
 		while (this.prompt.length > length) {
 			console.log(`Trimming oldest interaction off prompt: ${this.interactions[0].command}`);
 			this.interactions = this.interactions.slice(1);
-			this.recreatePrompt();
+			this.createPromptFromInteractions();
+            console.log(`New prompt length: ${this.prompt.length}`);
 		}
-		this.recreatePrompt();
+		this.createPromptFromInteractions();
+	}
+    
+	// Creates prompt using interactions (commands and code), modelling the commands as comments
+	createPromptFromInteractions() {
+		this.prompt = this.interactions.reduce((prev, next) => {
+			return `${prev}\n/* ${next.command} */\n${next.code}`;
+		}, "");
 	}
 
-	// Turns a text prompt into an array of interactions (commands and code)
-	parseInteractions(contextText) {
+	// Turns a text prompt into an array of interactions (commands and code) - this is effectively the inverse of the createPromptFromInteractions method
+	createInteractionsFromPrompt(contextText) {
 		let interactions = [];
 		let lines = contextText.split("\n");
 		for (let i = 0; i < lines.length; i++) {
