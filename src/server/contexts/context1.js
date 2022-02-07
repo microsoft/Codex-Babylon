@@ -1,12 +1,6 @@
-let basePrompt = `/* This document contains a BabylonJS scene, natural language commands and the BabylonJS code needed to accomplish them */
+let baseContext = `/* This document contains a BabylonJS scene, natural language commands and the BabylonJS code needed to accomplish them */
 
 state = {};
-
-/* Make the light more intense */
-scene.lights[0].intensity = 10
-
-/* Make the light less intense */
-scene.lights[0].intensity = 1
 
 /* Make a cube */
 state.cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, scene);
@@ -49,25 +43,9 @@ state.cube.actionManager.registerAction(state.unHoverAction);
 state.sphere = BABYLON.MeshBuilder.CreateSphere("sphere", {diameter: 1}, scene)
 state.sphere.position.y = 1
 
-/* create a series of larger and larger concentric torusses, like a tornado */
-state.torus = BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 1, thickness: 0.1}, scene);
-
-state.torusArray = [];
-
-for (let i = 0; i < 10; i++) {
-    state.torusArray.push(BABYLON.MeshBuilder.CreateTorus("torus", {diameter: 1 + i, thickness: 0.1}, scene));
-    state.torusArray[i].position.y = i;
-}
-
 /* Delete the sphere and the cube */
 state.sphere.dispose()
 state.cube.dispose()
-
-/* Delete the torusses */
-for (let i = 0; i < torusArray.length; i++) {
-    state.torusArray[i].dispose();
-}
-state.torusArray = null;
 
 /* make 50 cubes side by side */
 state.cubes = [];
@@ -81,18 +59,12 @@ for (let i = 0; i < 50; i++) {
     state.cubes[i].position.y = i;
 }
 
-/* delete them */
+/* remove them */
 for (let i = 0; i < 50; i++) {
     state.cubes[i].dispose();
 }
-
-/* Help me troubleshoot */
-scene.debugLayer.show();
-
-/* Now hide it */
-scene.debugLayer.hide();
 `;
 
 module.exports = {
-	basePrompt
+	baseContext
 };

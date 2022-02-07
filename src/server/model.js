@@ -1,19 +1,19 @@
 // Contains the helper methods for interacting with Codex and crafting model prompts
 
 require('dotenv').config();
-const basePrompt = require("./prompts/prompt1").basePrompt;
-const Prompt = require("./Prompt").Prompt;
+const baseContext = require("./contexts/context1").baseContext;
+const Context = require("./Context").Context;
 
-const maxLengthOfPrompt = 3500;
+const maxPromptLength = 3200;
 
 // CURRENTLY SINGLE TENANT - WOULD NEED TO UPDATE THIS TO A MAP OF TENANT IDs TO PROMPTS TO MAKE MULTI-TENANT
-let prompt = new Prompt(basePrompt);
+let context = new Context(baseContext);
 
 async function getCompletion(command) {
-	let promptWithCommand = prompt.getPromptWithCommand(command);
-	console.log(`Length of prompt: ${promptWithCommand.length}`);
-	if (promptWithCommand.length > maxLengthOfPrompt) {
-		prompt.trimPrompt(maxLengthOfPrompt - command.length);
+	let prompt = context.getPrompt(command);
+
+	if (prompt.length > maxPromptLength) {
+		prompt.trimContext(maxPromptLength - (command.length) + 6); // The max length of the prompt, including the command, comment operators and spacing.
 	}
 
 	const response = await fetch(
@@ -24,7 +24,7 @@ async function getCompletion(command) {
 				'Authorization': `Bearer ${process.env.CODEX_API_KEY}`
 			},
 			body: JSON.stringify({
-				prompt: prompt.getPromptWithCommand(command),
+				prompt,
 				max_tokens: 800,
 				temperature: 0,
 				stop: "/*",
@@ -40,7 +40,7 @@ async function getCompletion(command) {
 
 	const json = await response.json();
 	let code = json.choices[0].text;
-	prompt.addInteraction(command, code);
+	context.addInteraction(command, code);
 
 	return {
 		code,
@@ -51,5 +51,5 @@ async function getCompletion(command) {
 // export functions
 module.exports = {
 	getCompletion,
-	prompt
+	context
 }
