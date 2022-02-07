@@ -3,7 +3,7 @@
  * a prompt is a context plus command, which we pass to the model to get a code response.
  * 
  * We keep track of both the text context and an array of interactions in order to facilitate "undoing" of interactions, and removal of the oldest 
- * interactions (see `trimContext`) when a prompt gets too large.
+ * interactions (see `trimContext`) when a context gets too large for the model.
  */
 class Context {
 	constructor(baseContext) {
