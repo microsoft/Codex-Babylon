@@ -56,11 +56,11 @@ export default function Form() {
         if (codeDivRef.current != null) {
             codeDivRef.current.innerText = "";
         }
-        console.log("resetting prompt");
+        console.log("resetting context");
         fetch(`${serverUrl}/reset`)
             .then((response) => response.json())
             .then((res) => {
-                console.log(`Reset prompt: ${res.prompt}`);
+                console.log(`Reset context: ${res.context}`);
             })
             .catch((error) => console.error(error));
 

@@ -1,22 +1,31 @@
 // Contains the helper methods for interacting with Codex and crafting model prompts
 
 require('dotenv').config();
-const basePrompt = require("./prompts/prompt2").basePrompt;
+const baseContext = require("./contexts/context1").baseContext;
+const Context = require("./Context").Context;
+
+const maxPromptLength = 3200;
 
 // CURRENTLY SINGLE TENANT - WOULD NEED TO UPDATE THIS TO A MAP OF TENANT IDs TO PROMPTS TO MAKE MULTI-TENANT
-let prompt = basePrompt;
+let context = new Context(baseContext);
 
-async function getCompletion(query) {
+async function getCompletion(command) {
+	let prompt = context.getPrompt(command);
+
+	if (prompt.length > maxPromptLength) {
+		context.trimContext(maxPromptLength - (command.length) + 6); // The max length of the prompt, including the command, comment operators and spacing.
+	}
+
 	const response = await fetch(
-		'https://api.openai.com/v1/engines/davinci-codex-msft/completions', {
+		'https://api.openai.com/v1/engines/cushman-codex-msft/completions', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Bearer ${process.env.CODEX_API_KEY}`
 			},
 			body: JSON.stringify({
-				prompt: `${prompt}\n\n/* ${query} */\n`,
-				max_tokens: 400,
+				prompt,
+				max_tokens: 800,
 				temperature: 0,
 				stop: "/*",
 				n: 1
@@ -31,7 +40,7 @@ async function getCompletion(query) {
 
 	const json = await response.json();
 	let code = json.choices[0].text;
-	updatePrompt(query, code);
+	context.addInteraction(command, code);
 
 	return {
 		code,
@@ -39,20 +48,8 @@ async function getCompletion(query) {
 	};
 }
 
-const resetPrompt = () => {
-	console.log("resetting prompt");
-	prompt = basePrompt;
-}
-
-const updatePrompt = (query, code) => {
-	prompt = `${prompt}\n/* ${query} */\n${code}`;
-	prompt = prompt.split('\n').slice(0, -1).join('\n');
-	console.log(`Updated prompt with '${query}' and '${code}'`);
-}
-
 // export functions
 module.exports = {
 	getCompletion,
-	resetPrompt,
-	prompt
+	context
 }
