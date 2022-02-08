@@ -13,7 +13,7 @@ async function getCompletion(command) {
 	let prompt = context.getPrompt(command);
 
 	if (prompt.length > maxPromptLength) {
-		prompt.trimContext(maxPromptLength - (command.length) + 6); // The max length of the prompt, including the command, comment operators and spacing.
+		context.trimContext(maxPromptLength - (command.length) + 6); // The max length of the prompt, including the command, comment operators and spacing.
 	}
 
 	const response = await fetch(

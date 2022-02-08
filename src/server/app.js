@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const getCompletion = require('./model.js').getCompletion;
-const prompt = require('./model.js').prompt;
+const context = require('./model.js').context;
 const getAssetURLs = require('./assets.js').getAssetURLs;
 const fetch = require("isomorphic-fetch");
 const cors = require('cors');
@@ -26,9 +26,9 @@ app.post('/codegen', async (req, res) => {
 
 // Gets natural language and returns code
 app.get('/reset', async (_req, res) => {
-	prompt.resetPrompt();
+	context.resetContext();
 	res.send(JSON.stringify({
-		prompt: prompt.getPrompt()
+		context: context.getContext()
 	}));
 });
 

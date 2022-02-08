@@ -48,11 +48,13 @@ The server and client code is under `src/`.
 
 ## Prompt Engineering
 
-Generative models like Codex are trained on the simple task of guessing the next token in a sequence. A good practice to coax the kind of tokens (code) you want from Codex is to include example interactions in a prompt. These examples are sent to the model with every API call, along with your natural language query. Codex then "guesses" the next tokens in the sequence (the code that satisfies the natural language).
+Generative models like Codex are trained on the simple task of guessing the next token in a sequence. A good practice to coax the kind of tokens (code) you want from Codex is to include example interactions in a prompt - this practice is called few-shot prompt engineering. These examples are sent to the model with every API call, along with your natural language query. Codex then "guesses" the next tokens in the sequence (the code that satisfies the natural language).
 
-This project contains various prompts to elicit different kinds of code from the model. These prompts live in `./prompts` and are loaded by the `model.js` file. Currently the project uses `./prompts/prompt1.js` as the default. As users interact with the app, the prompt is updated to reflect the "conversation history". This enables pronount resolution (e.g. of "it" in "make it red") on future conversation turns. It also makes the model aware of any variables that may have been instantiated, that it may need to reference on future inferences.
+This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.js`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn. 
 
-Currently a single ongoing prompt is maintained on the server. This can be reset with the "Reset" button in the app. The single prompt means that the app is currently not multi-tenanted, and that multiple browser instances will reuse the same prompt.
+As a user interacts with the experience, we update the context to include past commands and responses. On subsequent conversation turns, this gives the model the relevant context to do things like pronoun resolution (e.g. of "it" in "make it red").
+
+Currently a single ongoing context is maintained on the server. This can be reset with the "Reset" button in the app. The single context means that the app is currently not multi-tenanted, and that multiple browser instances will reuse the same context.
 
 ## Contributing
 
