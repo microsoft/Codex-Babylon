@@ -1,4 +1,5 @@
-import React, { useRef, useCallback } from "react";
+import { DefaultButton, ITextField, KeyCodes, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import React, { useRef, useCallback, useState, useEffect } from "react";
 import {
     useBabylonContext,
     useBabylonResetSceneDispatch
@@ -14,20 +15,32 @@ const getAssetUrls = require("../helpers").getAssetUrls;
 
 export default function Form() {
     const serverUrl = `http://localhost:${process.env.SERVER_PORT}`;
-    const inputRef = useRef<HTMLInputElement>(null);
     const codeDivRef = useRef<HTMLDivElement>(null);
+    const inputRef = useRef<ITextField>(null);
 
     const { state } = useCodexStateContext();
     const { scene } = useBabylonContext();
     const resetBabylonScene = useBabylonResetSceneDispatch();
     const resetCodexState = useCodexResetStateDispatch();
 
+    const [currentCommand, setCurrentCommand] = useState<string>();
+    const [isSendingCommand, setIsSendingCommand] = useState<boolean>(false);
+
+    useEffect(() => {
+        if(!isSendingCommand) {
+            inputRef.current?.focus();
+        }
+    },[isSendingCommand]);
+
     const evalAsync = async function (code) {
         await eval("(async () => { " + code + "})()");
     };
 
     const handleSubmit = useCallback(() => {
-        const nlCommand = inputRef.current?.value;
+        
+        setIsSendingCommand(true);
+        
+        const nlCommand = currentCommand;
         console.log("Sending natural language command: " + nlCommand);
 
         fetch(`${serverUrl}/codegen`, {
@@ -43,14 +56,20 @@ export default function Form() {
             .then((data) => {
                 console.log(`Received the following code: ${data.code}`);
 
-                if (codeDivRef.current != null && inputRef.current != null) {
+                if (codeDivRef.current != null && currentCommand !== undefined) {
                     codeDivRef.current.innerText = data.code;
-                    inputRef.current.value = "";
+                    
+                    setCurrentCommand("");                    
                     evalAsync(data.code);
                 }
+
+                setIsSendingCommand(false);
             })
-            .catch((error) => console.error(error));
-    }, [state, scene] /* state and scene are used by evalAsync*/);
+            .catch((error) => {
+                console.error(error);
+                setIsSendingCommand(false);
+            });
+    }, [state, scene, currentCommand] /* state and scene are used by evalAsync*/);
 
     const handleReset = useCallback(() => {
         if (codeDivRef.current != null) {
@@ -71,31 +90,34 @@ export default function Form() {
 
     return (
         <>
-            <div className="commandDiv">
-                <input
-                    ref={inputRef}
-                    className="form-control"
-                    type="text"
+            <Stack className='commandDiv' horizontal tokens={{childrenGap:5}} horizontalAlign='start'>
+                <TextField
+                    componentRef={inputRef}
+                    disabled={isSendingCommand}
+                    onChange={(e,newValue) => setCurrentCommand(newValue)}
+                    value={currentCommand}
+                    styles={{root:{minWidth:400}}}
+                    onKeyUp={(k)=> k.code === "Enter" ? handleSubmit() : ()=>{}}
                     placeholder="Enter Natural Language Command (e.g. 'create a cube')"
                 />
-                <button
-                    type="submit"
-                    className="btn btn-primary mb-2 submitButton"
+                <PrimaryButton
+                    styles={{root:{ minWidth:150}}}
+                    disabled={isSendingCommand}
                     onClick={handleSubmit}
                 >
                     Enter
-                </button>
-                <button
-                    type="submit"
+                </PrimaryButton>
+                <DefaultButton
+                    styles={{root:{ minWidth:100}}}
+                    disabled={isSendingCommand}
                     onClick={handleReset}
-                    className="btn btn-primary mb-2 resetButton"
                 >
                     Reset
-                </button>
+                </DefaultButton>
                 <div className="codeDiv">
                     <p ref={codeDivRef}></p>
                 </div>
-            </div>
+            </Stack>
         </>
     );
 }
