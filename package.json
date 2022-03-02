@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fluentui/react": "^8.56.2",
     "body-parser": "^1.19.1",
     "cors": "^2.8.5",
     "dotenv": "^11.0.0",
