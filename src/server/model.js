@@ -17,7 +17,7 @@ async function getCompletion(command) {
 	}
 
 	const response = await fetch(
-		'https://api.openai.com/v1/engines/cushman-codex-msft/completions', {
+		'https://api.openai.com/v1/completions', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -28,7 +28,8 @@ async function getCompletion(command) {
 				max_tokens: 800,
 				temperature: 0,
 				stop: "/*",
-				n: 1
+				n: 1,
+				model: "code-cushman:ft-new-model-exploration-2022-03-03-19-57-06"
 			})
 		}
 	);
