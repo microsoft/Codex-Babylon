@@ -19,12 +19,12 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 
 The app consists of a basic text box to enter natural language commands, and a 3D scene to display the results. Enter commands into the text box and press enter to see the results. Note that conversation context is maintained between commands, so subsequent commands can refer back to previous ones.
 
-Example commands: 
-  
+Example commands:
+
   > _Create a cube_
-  
+
   > _Make it red and make it spin_
-  
+
   >_Put a teal sphere above it and another below it_
 
   > _Make the bottom sphere change colors when the cursor hovers over it_
@@ -50,7 +50,7 @@ The server and client code is under `src/`.
 
 Generative models like Codex are trained on the simple task of guessing the next token in a sequence. A good practice to coax the kind of tokens (code) you want from Codex is to include example interactions in a prompt - this practice is called few-shot prompt engineering. These examples are sent to the model with every API call, along with your natural language query. Codex then "guesses" the next tokens in the sequence (the code that satisfies the natural language).
 
-This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.js`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn. 
+This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.js`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn.
 
 As a user interacts with the experience, we update the context to include past commands and responses. On subsequent conversation turns, this gives the model the relevant context to do things like pronoun resolution (e.g. of "it" in "make it red").
 
@@ -72,8 +72,8 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## Trademarks
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
+This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
+trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.

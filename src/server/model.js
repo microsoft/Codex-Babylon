@@ -17,7 +17,7 @@ async function getCompletion(command) {
 	}
 
 	const response = await fetch(
-		'https://api.openai.com/v1/completions', {
+		`${process.env.ENDPOINT}`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ async function getCompletion(command) {
 				temperature: 0,
 				stop: "/*",
 				n: 1,
-				model: "code-cushman:ft-new-model-exploration-2022-03-03-19-57-06"
+				model: `${process.env.MODEL}`
 			})
 		}
 	);
