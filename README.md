@@ -11,6 +11,8 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 
 1. `git clone` the repo: `git clone https://github.com/microsoft/Babylex` and open the Babylex folder
 2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file
+   1. The endpoint for OpenAI models is **https://api.openai.com/v1/completions**
+   2. The model name can be from a list of available off-the-shelf engines or a fine-tuned model. See the [OpenAI API Reference](https://beta.openai.com/docs/api-reference/) for how to get a list of available models and fine-tunes from OpenAI.
 3. Add the Open AI API Key and the port you want to run the app to the .env file.
 4. Run `npm install` to gather the projects' dependencies
 5. Run `npm start` to serve the backend and launch the web application.
