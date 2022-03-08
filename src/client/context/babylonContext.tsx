@@ -87,6 +87,7 @@ function createScene(engine: any, canvas: HTMLElement | null) {
     }
 
     const scene = new window.BABYLON.Scene(engine);
+    scene.clearColor = new window.BABYLON.Color3.FromHexString("#201c24");
     const camera = new window.BABYLON.ArcRotateCamera(
         "camera",
         -Math.PI / 2,
