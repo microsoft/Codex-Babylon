@@ -11,6 +11,8 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 
 1. `git clone` the repo: `git clone https://github.com/microsoft/Babylex` and open the Babylex folder
 2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file
+   1. The endpoint for OpenAI models is **https://api.openai.com/v1/completions**
+   2. The model name can be from a list of available off-the-shelf engines or a fine-tuned model. See the [OpenAI API Reference](https://beta.openai.com/docs/api-reference/) for how to get a list of available models and fine-tunes from OpenAI.
 3. Add the Open AI API Key and the port you want to run the app to the .env file.
 4. Run `npm install` to gather the projects' dependencies
 5. Run `npm start` to serve the backend and launch the web application.
@@ -19,12 +21,12 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 
 The app consists of a basic text box to enter natural language commands, and a 3D scene to display the results. Enter commands into the text box and press enter to see the results. Note that conversation context is maintained between commands, so subsequent commands can refer back to previous ones.
 
-Example commands: 
-  
+Example commands:
+
   > _Create a cube_
-  
+
   > _Make it red and make it spin_
-  
+
   >_Put a teal sphere above it and another below it_
 
   > _Make the bottom sphere change colors when the cursor hovers over it_
@@ -50,7 +52,7 @@ The server and client code is under `src/`.
 
 Generative models like Codex are trained on the simple task of guessing the next token in a sequence. A good practice to coax the kind of tokens (code) you want from Codex is to include example interactions in a prompt - this practice is called few-shot prompt engineering. These examples are sent to the model with every API call, along with your natural language query. Codex then "guesses" the next tokens in the sequence (the code that satisfies the natural language).
 
-This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.js`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn. 
+This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.js`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn.
 
 As a user interacts with the experience, we update the context to include past commands and responses. On subsequent conversation turns, this gives the model the relevant context to do things like pronoun resolution (e.g. of "it" in "make it red").
 
@@ -72,8 +74,8 @@ contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additio
 
 ## Trademarks
 
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
+This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft
+trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
