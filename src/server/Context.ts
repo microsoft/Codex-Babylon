@@ -17,7 +17,7 @@ export default class Context {
     private baseInteractions: Interaction[];
     private interactions: Interaction[];
 
-    constructor(baseContext) {
+    constructor(baseContext: string) {
         this.baseContext = baseContext;
         this.context = baseContext;
 
@@ -31,12 +31,12 @@ export default class Context {
     }
 
     // Adds command (modelled as a comment) to a context, creating our prompt to the model
-    getPrompt(command) {
+    getPrompt(command: string) {
         return `${this.context}\n\n/* ${command} */\n`;
     }
 
     // Adds a new interaction (command and code) to the prompt, "remembering" it for future turns
-    addInteraction(command, code) {
+    addInteraction(command: string, code: string) {
         let context = `${this.context}\n/* ${command} */\n${code}`;
         this.context = context.split("\n").slice(0, -1).join("\n");
         this.interactions.push({
@@ -61,7 +61,7 @@ export default class Context {
 
     // Trims the prompt to remain under a certain length, removing interactions from the top. This is necessary to prevent the prompt from getting too long for a given model.
     // The side effect is that the prompt will be truncated, "forgetting" past interactions or context.
-    trimContext(length) {
+    trimContext(length: number) {
         console.log("Trimming Context");
         while (this.context.length > length) {
             console.log(
