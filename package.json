@@ -5,8 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "concurrently \"npm:serve:*\" -k",
-    "serve:server": "nodemon ./src/server/app.js",
+    "preserve:server": "npm run build:server",
+    "serve:server": "nodemon ./dist/server/app.js",
     "serve:client": "webpack-dev-server --color --config ./webpack.config.js",
+    "build:server": "tsc src/server/app.ts -inlineSourceMap -outDir dist/server --esModuleInterop",
     "build:client": "webpack --env prod --env clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
