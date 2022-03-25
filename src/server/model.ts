@@ -10,7 +10,7 @@ const maxPromptLength = 3200;
 // CURRENTLY SINGLE TENANT - WOULD NEED TO UPDATE THIS TO A MAP OF TENANT IDs TO PROMPTS TO MAKE MULTI-TENANT
 export const context = new Context(baseContext);
 
-export async function getCompletion(command) {
+export async function getCompletion(command: string) {
     let prompt = context.getPrompt(command);
 
     if (prompt.length > maxPromptLength) {
