@@ -4,7 +4,7 @@ import fetch from "isomorphic-fetch";
 API url: https://hubble.officeapps.live.com/mediasvc/api/media/search?v=1&lang=en-US
 Do a POST with this JSON for instance:  {"type":"Search","pageSize":30,"query":"dresser","parameters":{"firstpartycontent":false,"app":"office"},"descriptor":{"$type":"FirstPartyContentSearchDescriptor"}}
 */
-export async function getAssetURLs(query) {
+export async function getAssetURLs(query: string) {
     console.log(`Searching for ${query}`);
     const response = await fetch(
         "https://hubble.officeapps.live.com/mediasvc/api/media/search?v=1&lang=en-US",
