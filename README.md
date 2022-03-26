@@ -45,14 +45,14 @@ The server and client code is under `src/`.
 - `index.html` is the barebones main view of the app. It uses Bootstrap for basic styling
 
 ### Server (src/server)
-- `app.js` is the main entry point for the app. It sets up the Express to serve RESTful APIs.
-- `model.js` manages interaction the Codex API. This uses `isomorphic-fetch` to make POST calls of natural language to be converted to code. It also includes helper methods for engineering the prompt that is sent to Codex (see "prompt engineering" below)
+- `app.ts` is the main entry point for the app. It sets up the Express to serve RESTful APIs after being transpile into JavaScript (output: `dist\server\app.js`).
+- `model.ts` manages interaction the Codex API. This uses `isomorphic-fetch` to make POST calls of natural language to be converted to code. It also includes helper methods for engineering the prompt that is sent to Codex (see "prompt engineering" below)
 
 ## Prompt Engineering
 
 Generative models like Codex are trained on the simple task of guessing the next token in a sequence. A good practice to coax the kind of tokens (code) you want from Codex is to include example interactions in a prompt - this practice is called few-shot prompt engineering. These examples are sent to the model with every API call, along with your natural language query. Codex then "guesses" the next tokens in the sequence (the code that satisfies the natural language).
 
-This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.js`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn.
+This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.ts`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn.
 
 As a user interacts with the experience, we update the context to include past commands and responses. On subsequent conversation turns, this gives the model the relevant context to do things like pronoun resolution (e.g. of "it" in "make it red").
 

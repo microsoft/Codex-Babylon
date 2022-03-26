@@ -5,8 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "concurrently \"npm:serve:*\" -k",
-    "serve:server": "nodemon ./src/server/app.js",
+    "serve:build-server": "npm run build:server",
+    "serve:server": "nodemon ./dist/server/app.js",
     "serve:client": "webpack-dev-server --color --config ./webpack.config.js",
+    "build:server": "tsc src/server/app.ts -inlineSourceMap -outDir dist/server --esModuleInterop --watch --preserveWatchOutput",
     "build:client": "webpack --env prod --env clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -26,6 +28,7 @@
     "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@types/isomorphic-fetch": "0.0.36",
     "babel-loader": "^8.2.3",
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^7.0.0",

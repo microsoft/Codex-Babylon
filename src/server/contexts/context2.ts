@@ -1,4 +1,4 @@
-let baseContext = `/* This document contains a BabylonJS scene, natural language commands and the BabylonJS code needed to accomplish them */
+export const baseContext = `/* This document contains a BabylonJS scene, natural language commands and the BabylonJS code needed to accomplish them */
 
 /* Create a chair! */
 // No primitive called chair - call external library
@@ -40,6 +40,3 @@ state.lion0.dispose();
 /* delete all state */
 state = {};
 `;
-module.exports = {
-	baseContext
-};
