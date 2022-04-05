@@ -15,7 +15,7 @@ This project converts natural language into 3D assets using [BabylonJS](https://
    2. The model name can be from a list of available off-the-shelf engines or a fine-tuned model. See the [OpenAI API Reference](https://beta.openai.com/docs/api-reference/) for how to get a list of available models and fine-tunes from OpenAI.
 3. Add the Open AI API Key and the port you want to run the app to the .env file.
 4. Run `npm install` to gather the projects' dependencies
-5. Run `npm start` to serve the backend and launch the web application.
+5. Run `npm run start` to serve the backend and launch the web application.
 
 ## Using the App
 
