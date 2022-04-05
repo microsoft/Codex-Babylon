@@ -63,4 +63,7 @@ for (let i = 0; i < 50; i++) {
 for (let i = 0; i < 50; i++) {
     state.cubes[i].dispose();
 }
+
+/* make the background red */
+scene.clearColor = new BABYLON.Color3(1, 0, 0);
 `;
