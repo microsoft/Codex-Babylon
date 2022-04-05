@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import { context, getCompletion } from "./model";
-import { getAssetURLs } from "./assets.js";
 import cors from "cors";
 
 const app = express();
@@ -30,13 +29,6 @@ app.get("/reset", async (_req, res) => {
             context: context.getContext()
         })
     );
-});
-
-// GET asset URLs
-app.get("/assetUrls", async (req, res) => {
-    let asset = req.query.text as string;
-    const response = await getAssetURLs(asset);
-    res.send(JSON.stringify(response));
 });
 
 app.listen(port, () => {

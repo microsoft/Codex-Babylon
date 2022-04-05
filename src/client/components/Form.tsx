@@ -10,9 +10,6 @@ import {
 } from "../context/codexContext";
 import "./Form.css";
 
-// Functions used by codex. We need the variables in scope.
-const getAssetUrls = require("../helpers").getAssetUrls;
-
 export default function Form() {
     const serverUrl = `http://localhost:${process.env.SERVER_PORT}`;
     const codeDivRef = useRef<HTMLDivElement>(null);
