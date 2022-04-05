@@ -1,6 +1,10 @@
 # Babylex
 
-This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/). It is a React web application with an [Express](https://expressjs.com/) backend.
+This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/):
+
+![Babylex GIF](babylex.gif)
+
+The project is made up of a React web application frontend with an [Express](https://expressjs.com/) backend.
 
 ## Requirements
 
