@@ -14,10 +14,17 @@ The project is made up of a React web application frontend with an [Express](htt
 ## Running the App
 
 1. `git clone` the repo: `git clone https://github.com/microsoft/Babylex` and open the Babylex folder
-2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file
-   1. The endpoint for OpenAI models is **https://api.openai.com/v1/completions**
-   2. The model name can be from a list of available off-the-shelf engines or a fine-tuned model. See the [OpenAI API Reference](https://beta.openai.com/docs/api-reference/) for how to get a list of available models and fine-tunes from OpenAI.
-3. Add the Open AI API Key and the port you want to run the app to the .env file.
+2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file. 
+3. In `.env`, provide the following configuration
+
+    |Config Name|Description|
+    |--|--|
+    |`OPENAI_API_KEY`|The [OpenAI API key](https://beta.openai.com/account/api-keys).|
+    |`OPENAI_ORGANIZATION_ID`|Your [OpenAI organization id](https://beta.openai.com/account/org-settings).<br/>If you have multiple organizations, please update your [default organization](https://beta.openai.com/account/api-keys) to the one that has access to codex engines before getting the organization id.|
+    |`OPENAI_ENGINE_ID`|The [OpenAI engine id](https://beta.openai.com/docs/engines/codex-series-private-beta) that provides access to a model. For example, `code-davinci-002` or `code-cushman-001`.<br/>See [here](#what-openai-engines-are-available-to-me) for checking available engines.|
+    |`SERVER_PORT`|The port to run the server code. Default to `1200`.|
+    |`CLIENT_PORT`|The port to run the web app. Default to `3000`. |
+
 4. Run `npm install` to gather the projects' dependencies
 5. Run `npm run start` to serve the backend and launch the web application.
 
@@ -83,3 +90,19 @@ trademarks or logos is subject to and must follow
 [Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
 Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
+
+## FAQ
+### What OpenAI engines are available to me?
+You might have access to different [OpenAI engines](https://beta.openai.com/docs/api-reference/engines) per OpenAI organization. To check what engines are available to you, You can query the [List engines API](https://beta.openai.com/docs/api-reference/engines/list) for available engines. See the following commands:
+
+* Shell
+```
+curl https://api.openai.com/v1/engines \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -H 'OpenAI-Organization: YOUR_ORG_ID'
+```
+
+* Windows Command Prompt (cmd)
+```
+curl --ssl-no-revoke https://api.openai.com/v1/engines --header OpenAI-Organization:YOUR_ORG_ID --oauth2-bearer YOUR_API_KEY
+```

@@ -17,11 +17,16 @@ export async function getCompletion(command: string) {
         context.trimContext(maxPromptLength - command.length + 6); // The max length of the prompt, including the command, comment operators and spacing.
     }
 
-    const response = await fetch(`${process.env.ENDPOINT}`, {
+    // To learn more about making requests to OpanAI API, please refer to https://beta.openai.com/docs/api-reference/making-requests.
+    // Here we use the following endpoint pattern for engine selection.
+    // https://api.openai.com/v1/engines/{engine_id}/completions
+    // You can switch to different engines that are available to you. Learn more about engines - https://beta.openai.com/docs/engines/engines
+    const response = await fetch(`https://api.openai.com/v1/engines/${process.env.OPENAI_ENGINE_ID}/completions`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.CODEX_API_KEY}`
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+            "OpenAI-Organization": `${process.env.OPENAI_ORGANIZATION_ID}`
         },
         body: JSON.stringify({
             prompt,
@@ -29,7 +34,6 @@ export async function getCompletion(command: string) {
             temperature: 0,
             stop: "/*",
             n: 1
-            // model: `${process.env.MODEL}`
         })
     });
 
