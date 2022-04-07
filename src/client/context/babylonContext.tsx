@@ -15,10 +15,9 @@ type BabylonProviderProps = {
 
 export type BabylonResetSceneDispatch = () => void;
 
-// TODO: Add type definition.
 type BabylonContext = {
-    engine: any;
-    scene: any;
+    engine: BABYLON.Engine;
+    scene: BABYLON.Scene;
 };
 
 const BabylonStateContext = createContext<BabylonContext>({
@@ -75,7 +74,7 @@ function BabylonProvider({ children }: BabylonProviderProps) {
     );
 }
 
-function createScene(engine: any, canvas: HTMLElement | null) {
+function createScene(engine: BABYLON.Engine, canvas: HTMLElement | null) {
     if (engine == null || canvas == null) {
         return null;
     }
