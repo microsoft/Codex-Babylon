@@ -4,11 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "concurrently \"npm:serve:*\" -k",
-    "serve:build-server": "npm run build:server",
-    "serve:server": "nodemon ./dist/server/app.js",
-    "serve:client": "webpack-dev-server --color --config ./webpack.config.js",
-    "build:server": "tsc src/server/app.ts -inlineSourceMap -outDir dist/server --esModuleInterop --watch --preserveWatchOutput",
+    "start": "concurrently \"npm:watch:*\" -k",
+    "serve:server": "npm run build:server && node ./dist/server/app.js",
+    "watch:server": "nodemon --watch src/server -e ts --exec \"npm run serve:server\"",
+    "watch:client": "webpack-dev-server --color --config ./webpack.config.js",
+    "build:server": "tsc src/server/app.ts -inlineSourceMap -outDir dist/server --esModuleInterop --incremental --tsBuildInfoFile .tsbuildinfo",
     "build:client": "webpack --env prod --env clean",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
