@@ -9,6 +9,8 @@ import {
     useCodexStateContext
 } from "../context/codexContext";
 import "./Form.css";
+const BABYLON = require("babylonjs");
+import "babylonjs-loaders";
 
 export default function Form() {
     const serverUrl = `http://localhost:${process.env.SERVER_PORT}`;

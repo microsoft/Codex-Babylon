@@ -4,16 +4,10 @@ import React, {
     useCallback,
     useContext,
     useEffect,
-    useState,
-    useRef
+    useState
 } from "react";
-
-// temp workaround to deal with the global variable of babylon CDN
-interface customWindow extends Window {
-    BABYLON?: any;
-}
-
-declare const window: customWindow;
+import * as BABYLON from "babylonjs";
+import "babylonjs-loaders";
 
 type BabylonProviderProps = {
     children?: ReactNode;
@@ -37,8 +31,8 @@ const BabylonResetSceneDispatchContext = createContext<
 >(undefined);
 
 function BabylonProvider({ children }: BabylonProviderProps) {
-    const canvas: HTMLElement | null = document.getElementById("renderCanvas"); // Get the canvas element
-    const _engine = new window.BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
+    const canvas: HTMLCanvasElement | null = document.getElementById("renderCanvas") as HTMLCanvasElement; // Get the canvas element
+    const _engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
     const _scene = createScene(_engine, canvas);
 
     const [engine] = useState(_engine);
@@ -57,7 +51,7 @@ function BabylonProvider({ children }: BabylonProviderProps) {
         engine.runRenderLoop(function () {
             scene.render();
         });
-        
+
         // Watch for browser/canvas resize events
         window.addEventListener("resize", handleWindowResize);
         return () => {
@@ -86,21 +80,22 @@ function createScene(engine: any, canvas: HTMLElement | null) {
         return null;
     }
 
-    const scene = new window.BABYLON.Scene(engine);
-    scene.clearColor = new window.BABYLON.Color3.FromHexString("#201c24");
-    const camera = new window.BABYLON.ArcRotateCamera(
+    const scene = new BABYLON.Scene(engine);
+    scene.clearColor = BABYLON.Color4.FromHexString("#201c24");
+    const camera = new BABYLON.ArcRotateCamera(
         "camera",
         -Math.PI / 2,
         Math.PI / 2.5,
         15,
-        new window.BABYLON.Vector3(0, 0, 0)
+        new BABYLON.Vector3(0, 0, 0)
     );
     camera.attachControl(canvas, true);
     camera.wheelPrecision = 5;
 
-    const light = new window.BABYLON.HemisphericLight(
+    const light = new BABYLON.HemisphericLight(
         "light",
-        new window.BABYLON.Vector3(1, 1, 0)
+        new BABYLON.Vector3(1, 1, 0),
+        scene
     );
 
     return scene;
