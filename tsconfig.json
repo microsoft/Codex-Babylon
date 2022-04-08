@@ -2,7 +2,7 @@
     "compileOnSave": false,
     "buildOnSave": false,
     "compilerOptions": {
-        "target": "es5",
+        "target": "es2021",
         "jsx": "react",
         "module": "esnext",
         "moduleResolution": "node",
