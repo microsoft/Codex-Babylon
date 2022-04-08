@@ -1,10 +1,6 @@
 import React from "react";
 import { useCallback } from "react";
 
-// TODO: Add type definition.
-type CodexState = {
-    state: any;
-};
 type CodexResetStateDispatch = () => void;
 type CodexStateProviderProps = { children?: React.ReactNode };
 
