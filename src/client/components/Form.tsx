@@ -9,7 +9,7 @@ import {
     useCodexStateContext
 } from "../context/codexContext";
 import "./Form.css";
-const BABYLON = require("babylonjs");
+import * as BABYLON from "babylonjs"; // Keep this import for eval()
 import "babylonjs-loaders";
 
 export default function Form() {
@@ -68,7 +68,7 @@ export default function Form() {
                 console.error(error);
                 setIsSendingCommand(false);
             });
-    }, [state, scene, currentCommand] /* state and scene are used by evalAsync*/);
+    }, [currentCommand, serverUrl] /* state and scene are used by evalAsync*/);
 
     const handleReset = useCallback(() => {
         if (codeDivRef.current != null) {
@@ -85,7 +85,7 @@ export default function Form() {
         // reset
         resetBabylonScene();
         resetCodexState();
-    }, []);
+    }, [resetBabylonScene, resetCodexState, serverUrl]);
 
     return (
         <>
