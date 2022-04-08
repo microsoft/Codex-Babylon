@@ -2,6 +2,7 @@ var webpack = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var { CleanWebpackPlugin } = require("clean-webpack-plugin");
 var path = require("path");
+var ESLintPlugin = require("eslint-webpack-plugin");
 require("dotenv").config();
 
 module.exports = (env) => {
@@ -59,6 +60,7 @@ module.exports = (env) => {
             chunkFilename: "[name].bundle.js"
         },
         plugins: [
+            new ESLintPlugin({}),
             new CleanWebpackPlugin({
                 cleanOnceBeforeBuild: ["./dist"]
             }),
