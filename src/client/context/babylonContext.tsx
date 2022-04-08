@@ -16,8 +16,8 @@ type BabylonProviderProps = {
 export type BabylonResetSceneDispatch = () => void;
 
 type BabylonContext = {
-    engine: BABYLON.Engine;
-    scene: BABYLON.Scene;
+    engine: BABYLON.Engine | null;
+    scene: BABYLON.Scene | null;
 };
 
 const BabylonStateContext = createContext<BabylonContext>({
@@ -38,18 +38,18 @@ function BabylonProvider({ children }: BabylonProviderProps) {
     const [scene, setScene] = useState(_scene);
 
     const resetSceneCallback = useCallback(() => {
-        scene.dispose();
+        scene?.dispose();
         setScene(createScene(engine, canvas));
-    }, [scene, engine, canvas, setScene, createScene]);
-
-    function handleWindowResize() {
-        engine.resize();
-    }
+    }, [scene, engine, canvas, setScene]);
 
     useEffect(() => {
         engine.runRenderLoop(function () {
-            scene.render();
+            scene?.render();
         });
+
+        function handleWindowResize() {
+            engine.resize();
+        }
 
         // Watch for browser/canvas resize events
         window.addEventListener("resize", handleWindowResize);
