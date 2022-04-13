@@ -16,9 +16,9 @@ const CodexResetStateDispatchContext = React.createContext<
  *     2) dispatch function to reset state.
  */
 function CodexStateProvider({ children }: CodexStateProviderProps) {
-    const [state, setState] = React.useState({});
+    const [state, setState] = React.useState({intervals: []});
 
-    const resetStateCallback = useCallback(() => setState({}), [setState]);
+    const resetStateCallback = useCallback(() => setState({intervals: []}), [setState]);
 
     return (
         <CodexStateContext.Provider value={{ state }}>

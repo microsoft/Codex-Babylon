@@ -81,6 +81,14 @@ export default function Form() {
             .catch((error) => console.error(error));
 
         // reset
+        for (const key in state.intervals) {
+            if (state.intervals.hasOwnProperty(key)) {
+                const interval = state.intervals[key];
+                console.log(`Clearing interval ${key}`);
+                clearInterval(interval);
+            }
+        }
+        
         resetBabylonScene();
         resetCodexState();
     }, [resetBabylonScene, resetCodexState, serverUrl]);
