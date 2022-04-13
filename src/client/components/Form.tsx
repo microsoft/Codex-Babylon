@@ -66,7 +66,7 @@ export default function Form() {
                 console.error(error);
                 setIsSendingCommand(false);
             });
-    }, [state, scene, currentCommand] /* state and scene are used by evalAsync*/);
+    }, [currentCommand, serverUrl]);
 
     const handleReset = useCallback(() => {
         if (codeDivRef.current != null) {
@@ -83,7 +83,7 @@ export default function Form() {
         // reset
         resetBabylonScene();
         resetCodexState();
-    }, []);
+    }, [resetBabylonScene, resetCodexState, serverUrl]);
 
     return (
         <>

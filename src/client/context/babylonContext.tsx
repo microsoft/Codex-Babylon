@@ -37,7 +37,7 @@ const BabylonResetSceneDispatchContext = createContext<
 >(undefined);
 
 function BabylonProvider({ children }: BabylonProviderProps) {
-    const canvas: HTMLElement | null = document.getElementById("renderCanvas"); // Get the canvas element
+    const canvas: HTMLCanvasElement  | null = document.getElementById("renderCanvas") as HTMLCanvasElement; // Get the canvas element
     const _engine = new window.BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
     const _scene = createScene(_engine, canvas);
 
@@ -45,18 +45,18 @@ function BabylonProvider({ children }: BabylonProviderProps) {
     const [scene, setScene] = useState(_scene);
 
     const resetSceneCallback = useCallback(() => {
-        scene.dispose();
+        scene?.dispose();
         setScene(createScene(engine, canvas));
-    }, [scene, engine, canvas, setScene, createScene]);
-
-    function handleWindowResize() {
-        engine.resize();
-    }
+    }, [scene, engine, canvas, setScene]);
 
     useEffect(() => {
         engine.runRenderLoop(function () {
-            scene.render();
+            scene?.render();
         });
+
+        function handleWindowResize() {
+            engine.resize();
+        }
         
         // Watch for browser/canvas resize events
         window.addEventListener("resize", handleWindowResize);
@@ -87,7 +87,7 @@ function createScene(engine: any, canvas: HTMLElement | null) {
     }
 
     const scene = new window.BABYLON.Scene(engine);
-    scene.clearColor = new window.BABYLON.Color3.FromHexString("#201c24");
+    scene.clearColor = new window.BABYLON.Color4.FromHexString("#201c24");
     const camera = new window.BABYLON.ArcRotateCamera(
         "camera",
         -Math.PI / 2,
