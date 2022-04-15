@@ -31,6 +31,12 @@ app.get("/reset", async (_req, res) => {
     );
 });
 
+app.get("/undo", async (_req, res) => {
+    console.log(`Received undo command`);
+    context.undoInteraction();
+    res.status(200).send();
+});
+
 app.listen(port, () => {
     console.log(`Babylex webapp listening at http://localhost:${port}`);
 });

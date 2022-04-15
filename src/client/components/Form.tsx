@@ -1,4 +1,4 @@
-import { DefaultButton, ITextField, KeyCodes, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import { DefaultButton, IconButton, ITextField, KeyCodes, PrimaryButton, Stack, TextField } from "@fluentui/react";
 import React, { useRef, useCallback, useState, useEffect } from "react";
 import {
     useBabylonContext,
@@ -8,6 +8,7 @@ import {
     useCodexResetStateDispatch,
     useCodexStateContext
 } from "../context/codexContext";
+import { IState, UndoRedo } from "../undoredo";
 import "./Form.css";
 
 export default function Form() {
@@ -28,6 +29,24 @@ export default function Form() {
             inputRef.current?.focus();
         }
     },[isSendingCommand]);
+
+    const undoAction = async (state: IState[]) => {
+        resetBabylonScene();
+        resetCodexState();
+
+        for(var s of state) {            
+            await evalAsync(s);
+        }
+    }
+
+    const redoAction = async (state: IState) => {        
+        evalAsync(state.code);   
+        
+        await evalAsync(state);
+    }
+
+    const [undoRedo, ] = useState<UndoRedo>(new UndoRedo(undoAction, redoAction));
+
 
     const evalAsync = async function (code) {
         await eval("(async () => { " + code + "})()");
@@ -56,7 +75,8 @@ export default function Form() {
                 if (codeDivRef.current != null && currentCommand !== undefined) {
                     codeDivRef.current.innerText = data.code;
                     
-                    setCurrentCommand("");                    
+                    setCurrentCommand("");      
+                    undoRedo.append(data.code);              
                     evalAsync(data.code);
                 }
 
@@ -83,7 +103,28 @@ export default function Form() {
         // reset
         resetBabylonScene();
         resetCodexState();
+        undoRedo.reset();
     }, []);
+
+    const handleUndo = useCallback(async ()=> {
+        fetch(`${serverUrl}/undo`)
+            .then((response) => { 
+                if(response.ok) {
+                    undoRedo.undo();
+                }
+            })            
+            .catch((error) => console.error(error));
+    },[]);
+
+    const handleRedo = useCallback(()=> {
+        fetch(`${serverUrl}/redo`)
+            .then((response) => { 
+                if(response.ok) {
+                    undoRedo.redo();
+                }
+            })            
+            .catch((error) => console.error(error));
+    },[]);
 
     return (
         <>
@@ -111,6 +152,12 @@ export default function Form() {
                 >
                     Reset
                 </DefaultButton>
+                <Stack.Item align='center'>
+                    <IconButton onClick={handleUndo} iconProps={{iconName:'Undo'}} />
+                </Stack.Item>
+                <Stack.Item align='center'>
+                    <IconButton onClick={handleRedo} iconProps={{iconName:'Redo'}} />
+                </Stack.Item>
                 <div className="codeDiv">
                     <p ref={codeDivRef}></p>
                 </div>
