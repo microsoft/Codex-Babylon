@@ -55,18 +55,22 @@ export default function Form() {
                 console.log(`Received the following sensitiveContentFlag: ${data.sensitiveContentFlag}`);
 
                 if(data.sensitiveContentFlag > 0) {
-                    console.warn(
-                        data.sensitiveContentFlag === 1
-                        ? "Your message or the model's response may have contained sensitive content."
-                        : "Your message or the model's response may have contained unsafe content."
-                    );
-                }
+                    var warning = data.sensitiveContentFlag === 1
+                    ? "Your message or the model's response may have contained sensitive content."
+                    : "Your message or the model's response may have contained unsafe content.";
 
-                if (codeDivRef.current != null && currentCommand !== undefined) {
-                    codeDivRef.current.innerText = data.code;
-                    
-                    setCurrentCommand("");                    
-                    evalAsync(data.code);
+                    setCurrentCommand(""); 
+                    console.warn(warning);
+
+                    codeDivRef.current.innerText = "Completion may contain unsafe content\n\nOur content filter detected this completion may contain unsafe content. We may be flagging this because we know the model can generate insensitive or inaccurate language based on your command.";
+                }
+                else {
+                    if (codeDivRef.current != null && currentCommand !== undefined) {
+                        codeDivRef.current.innerText = data.code;
+                        
+                        setCurrentCommand("");                    
+                        evalAsync(data.code);
+                    }
                 }
 
                 setIsSendingCommand(false);
