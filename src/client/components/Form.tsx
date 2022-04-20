@@ -52,6 +52,15 @@ export default function Form() {
             .then((response) => response.json())
             .then((data) => {
                 console.log(`Received the following code: ${data.code}`);
+                console.log(`Received the following sensitiveContentFlag: ${data.sensitiveContentFlag}`);
+
+                if(data.sensitiveContentFlag > 0) {
+                    console.warn(
+                        data.sensitiveContentFlag === 1
+                        ? "Your message or the model's response may have contained sensitive content."
+                        : "Your message or the model's response may have contained unsafe content."
+                    );
+                }
 
                 if (codeDivRef.current != null && currentCommand !== undefined) {
                     codeDivRef.current.innerText = data.code;

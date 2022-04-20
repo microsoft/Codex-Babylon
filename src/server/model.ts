@@ -4,13 +4,14 @@ import fetch from "isomorphic-fetch";
 // Contains the helper methods for interacting with Codex and crafting model prompts
 import { baseContext } from "./contexts/context1";
 import Context from "./Context";
+import { detectSensitiveContent } from "./contentFiltering";
 
 const maxPromptLength = 3200;
 
 // CURRENTLY SINGLE TENANT - WOULD NEED TO UPDATE THIS TO A MAP OF TENANT IDs TO PROMPTS TO MAKE MULTI-TENANT
 export const context = new Context(baseContext);
 
-export async function getCompletion(command: string) {
+export async function getCompletion(command: string) {      
     let prompt = context.getPrompt(command);
 
     if (prompt.length > maxPromptLength) {
@@ -44,10 +45,27 @@ export async function getCompletion(command: string) {
 
     const json = await response.json();
     let code = json.choices[0].text;
-    context.addInteraction(command, code);
+
+    let sensitiveContentFlag = await detectSensitiveContent(command + "\n" + code);
+
+    // The flag can be 0, 1 or 2, corresponding to 'safe', 'sensitive' and 'unsafe'
+    if (sensitiveContentFlag > 0) {
+        console.warn(
+            sensitiveContentFlag === 1
+            ? "Your message or the model's response may have contained sensitive content."
+            : "Your message or the model's response may have contained unsafe content."
+        );
+
+        code = '';
+    }
+    else {
+        //only allow safe interactions to be added to the context history
+        context.addInteraction(command, code);
+    }    
 
     return {
         code,
-        prompt
+        prompt,
+        sensitiveContentFlag
     };
 }
