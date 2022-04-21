@@ -62,7 +62,7 @@ export default function Form() {
                     setCurrentCommand(""); 
                     console.warn(warning);
 
-                    codeDivRef.current.innerText = "Completion may contain unsafe content\n\nOur content filter detected this completion may contain unsafe content. We may be flagging this because we know the model can generate insensitive or inaccurate language based on your command.";
+                    codeDivRef.current.innerText = "Potentially sensitive language detected in prompt or completion. Try another prompt using different language.";
                 }
                 else {
                     if (codeDivRef.current != null && currentCommand !== undefined) {
