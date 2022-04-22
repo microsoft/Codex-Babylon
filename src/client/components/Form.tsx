@@ -62,7 +62,9 @@ export default function Form() {
                     setCurrentCommand(""); 
                     console.warn(warning);
 
-                    codeDivRef.current.innerText = "Potentially sensitive language detected in prompt or completion. Try another prompt using different language.";
+                    if (codeDivRef.current != null) {
+                        codeDivRef.current.innerText = "Potentially sensitive language detected in prompt or completion. Try another prompt using different language.";
+                    }
                 }
                 else {
                     if (codeDivRef.current != null && currentCommand !== undefined) {
