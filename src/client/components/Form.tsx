@@ -52,12 +52,27 @@ export default function Form() {
             .then((response) => response.json())
             .then((data) => {
                 console.log(`Received the following code: ${data.code}`);
+                console.log(`Received the following sensitiveContentFlag: ${data.sensitiveContentFlag}`);
 
-                if (codeDivRef.current != null && currentCommand !== undefined) {
-                    codeDivRef.current.innerText = data.code;
-                    
-                    setCurrentCommand("");                    
-                    evalAsync(data.code);
+                if(data.sensitiveContentFlag > 0) {
+                    var warning = data.sensitiveContentFlag === 1
+                    ? "Your message or the model's response may have contained sensitive content."
+                    : "Your message or the model's response may have contained unsafe content.";
+
+                    setCurrentCommand(""); 
+                    console.warn(warning);
+
+                    if (codeDivRef.current != null) {
+                        codeDivRef.current.innerText = "Potentially sensitive language detected in prompt or completion. Try another prompt using different language.";
+                    }
+                }
+                else {
+                    if (codeDivRef.current != null && currentCommand !== undefined) {
+                        codeDivRef.current.innerText = data.code;
+                        
+                        setCurrentCommand("");                    
+                        evalAsync(data.code);
+                    }
                 }
 
                 setIsSendingCommand(false);
