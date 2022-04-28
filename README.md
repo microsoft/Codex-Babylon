@@ -6,6 +6,9 @@ This project converts natural language into 3D assets using [BabylonJS](https://
 
 The project is made up of a React web application frontend with an [Express](https://expressjs.com/) backend.
 
+## Statement of Purpose
+This repository aims to grow the understanding of using Codex in applications by providing an example of implementation and references to support the [Microsoft Build conference in 2022](https://mybuild.microsoft.com/). It is not intended to be a released product. Therefore, this repository is not for discussing OpenAI API, BabylonJS or requesting new features.
+
 ## Requirements
 
 - Node.JS
