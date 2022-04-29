@@ -1,4 +1,4 @@
-import { DefaultButton, ITextField, KeyCodes, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import { DefaultButton, ITextField, KeyCodes, Panel, PanelType, PrimaryButton, Stack, TextField } from "@fluentui/react";
 import React, { useRef, useCallback, useState, useEffect } from "react";
 import {
     useBabylonContext,
@@ -10,9 +10,12 @@ import {
 } from "../context/codexContext";
 import "./Form.css";
 
+import { initializeIcons } from '@fluentui/font-icons-mdl2';
+import { useBoolean } from "@fluentui/react-hooks";
+initializeIcons();
+
 export default function Form() {
     const serverUrl = `http://localhost:${process.env.SERVER_PORT}`;
-    const codeDivRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<ITextField>(null);
 
     const { state } = useCodexStateContext();
@@ -22,6 +25,8 @@ export default function Form() {
 
     const [currentCommand, setCurrentCommand] = useState<string>();
     const [isSendingCommand, setIsSendingCommand] = useState<boolean>(false);
+
+    const [codeChunks, setCodeChunks] = useState<string[]>([]);
 
     useEffect(() => {
         if(!isSendingCommand) {
@@ -53,10 +58,12 @@ export default function Form() {
             .then((data) => {
                 console.log(`Received the following code: ${data.code}`);
 
-                if (codeDivRef.current != null && currentCommand !== undefined) {
-                    codeDivRef.current.innerText = data.code;
-                    
-                    setCurrentCommand("");                    
+                if (currentCommand !== undefined) {
+                    codeChunks.push(data.code);
+
+                    setCodeChunks([...codeChunks]);
+
+                    setCurrentCommand("");
                     evalAsync(data.code);
                 }
 
@@ -66,12 +73,10 @@ export default function Form() {
                 console.error(error);
                 setIsSendingCommand(false);
             });
-    }, [currentCommand, serverUrl]);
+    }, [currentCommand, serverUrl]);    
 
     const handleReset = useCallback(() => {
-        if (codeDivRef.current != null) {
-            codeDivRef.current.innerText = "";
-        }
+        setCodeChunks([...[]]);
         console.log("resetting context");
         fetch(`${serverUrl}/reset`)
             .then((response) => response.json())
@@ -93,36 +98,56 @@ export default function Form() {
         resetCodexState();
     }, [resetBabylonScene, resetCodexState, serverUrl]);
 
+    const [isOpen, { setTrue: openCodePanel, setFalse: dismissCodePanel }] = useBoolean(false);    
+
     return (
-        <>
-            <Stack className='commandDiv' horizontal tokens={{childrenGap:5}} horizontalAlign='start'>
-                <TextField
-                    componentRef={inputRef}
-                    disabled={isSendingCommand}
-                    onChange={(e,newValue) => setCurrentCommand(newValue)}
-                    value={currentCommand}
-                    styles={{root:{minWidth:400}}}
-                    onKeyUp={(k)=> k.code === "Enter" ? handleSubmit() : ()=>{}}
-                    placeholder="Enter Natural Language Command (e.g. 'create a cube')"
-                />
-                <PrimaryButton
-                    styles={{root:{ minWidth:150}}}
-                    disabled={isSendingCommand}
-                    onClick={handleSubmit}
-                >
-                    Enter
-                </PrimaryButton>
-                <DefaultButton
-                    styles={{root:{ minWidth:100}}}
-                    disabled={isSendingCommand}
-                    onClick={handleReset}
-                >
-                    Reset
-                </DefaultButton>
-                <div className="codeDiv">
-                    <p ref={codeDivRef}></p>
-                </div>
+        <div>
+            <Stack className='commandDiv' horizontalAlign='center' tokens={{childrenGap:5}} >
+                <Stack horizontal tokens={{childrenGap:5, padding: 10}} horizontalAlign='stretch'>                 
+                    <TextField
+                        componentRef={inputRef}
+                        multiline
+                        disabled={isSendingCommand}
+                        onChange={(e,newValue) => setCurrentCommand(newValue)}
+                        value={currentCommand}
+                        styles={{root:{width:'90vw'}}}
+                        onKeyUp={(k)=> k.code === "Enter" ? handleSubmit() : ()=>{}}
+                        placeholder="Enter Natural Language Command (e.g. 'create a cube')"
+                    />
+                    <DefaultButton
+                        iconProps={{iconName:'Processing'}}
+                        disabled={isSendingCommand}
+                        styles={{root:{width:'60', height:'auto'}}}
+                        onClick={handleSubmit}>
+                        Execute
+                    </DefaultButton>                
+                </Stack>
+                <Stack horizontal tokens={{childrenGap:5}} >
+                    <DefaultButton
+                            iconProps={{iconName:'Delete'}}
+                        disabled={isSendingCommand}
+                        onClick={handleReset}
+                    >
+                        Reset
+                    </DefaultButton>
+                    <DefaultButton
+                            iconProps={{iconName:'Code'}}
+                        disabled={isSendingCommand}
+                        onClick={()=>openCodePanel()}
+                    >
+                        View Code
+                    </DefaultButton>
+                </Stack>
             </Stack>
-        </>
+            <Panel
+                headerText="Code"
+                type={PanelType.largeFixed}
+                isOpen={isOpen}
+                isLightDismiss={true}
+                onDismiss={dismissCodePanel}
+                closeButtonAriaLabel="Close">
+                   {codeChunks.map((c,idx) => <p key={idx}>{c}</p>)}
+              </Panel>  
+        </div>
     );
 }
