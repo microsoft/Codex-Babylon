@@ -141,12 +141,12 @@ export default function Form() {
             </Stack>
             <Panel
                 headerText="Code"
-                type={PanelType.largeFixed}
+                type={PanelType.smallFixedFar}
                 isOpen={isOpen}
                 isLightDismiss={true}
                 onDismiss={dismissCodePanel}
                 closeButtonAriaLabel="Close">
-                   {codeChunks.map((c,idx) => <p key={idx}>{c}</p>)}
+                   {codeChunks.map((c,idx) => <Stack tokens={{childrenGap:5}}><p key={idx}>{c}</p><hr className='code-gap' /></Stack>)}
               </Panel>  
         </div>
     );

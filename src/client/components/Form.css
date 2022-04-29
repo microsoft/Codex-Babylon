@@ -5,3 +5,9 @@
     padding-left:20px;
     padding-right:20px;
 }
+
+.code-gap {
+    width:90%;
+    color:gray;
+    opacity: 0.4;
+}
