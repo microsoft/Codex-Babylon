@@ -16,9 +16,9 @@ This repository aims to grow the understanding of using Codex in applications by
 
 ## Running the App
 
-1. `git clone` the repo: `git clone https://github.com/microsoft/Babylex` and open the Babylex folder
+1. Clone the repo: `git clone https://github.com/microsoft/Babylex` and open the Babylex folder.
 2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file. 
-3. In `.env`, provide the following configuration
+3. In `.env`, provide the following configuration:
 
     |Config Name|Description|
     |--|--|
@@ -28,7 +28,7 @@ This repository aims to grow the understanding of using Codex in applications by
     |`SERVER_PORT`|The port to run the server code. Default to `1200`.|
     |`CLIENT_PORT`|The port to run the web app. Default to `3000`. |
 
-4. Run `npm install` to gather the projects' dependencies
+4. Run `npm install` to gather the projects' dependencies.
 5. Run `npm run start` to serve the backend and launch the web application.
 
 ## Using the App
@@ -50,17 +50,17 @@ To debug the web application, you can [debug with VSCode debugger](https://code.
 
 To debug the code generated from codex, the current debugging experience is basic:
  - Observe logs in your browser dev tools (F12) to debug issues evaluating generated code
- - Observe logs in your console to debug issues between the Express server, Codex and the client
+ - Observe logs in your console to debug issues between the Express server, Codex, and the client
 
 ## Understand the Code
 The server and client code is under `src/`.
 ### Client (src/client)
 - `index.tsx` is the entry to bootstrap the React web application.
-- `index.html` is the barebones main view of the app. It uses Bootstrap for basic styling
+- `index.html` is the barebones main view of the app. It uses Bootstrap for basic styling.
 
 ### Server (src/server)
 - `app.ts` is the main entry point for the app. It sets up the Express to serve RESTful APIs after being transpile into JavaScript (output: `dist\server\app.js`).
-- `model.ts` manages interaction the Codex API. This uses `isomorphic-fetch` to make POST calls of natural language to be converted to code. It also includes helper methods for engineering the prompt that is sent to Codex (see "prompt engineering" below)
+- `model.ts` manages interaction the Codex API. This uses `isomorphic-fetch` to make POST calls of natural language to be converted to code. It also includes helper methods for engineering the prompt that is sent to Codex (see "prompt engineering" below).
 
 ## Prompt Engineering
 
