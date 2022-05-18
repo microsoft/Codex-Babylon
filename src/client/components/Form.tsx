@@ -1,4 +1,4 @@
-import { DefaultButton, ITextField, KeyCodes, PrimaryButton, Stack, TextField } from "@fluentui/react";
+import { DefaultButton, IButtonStyles, ITextField, KeyCodes, PrimaryButton, Stack, TextField } from "@fluentui/react";
 import React, { useRef, useCallback, useState, useEffect } from "react";
 import {
     useBabylonContext,
@@ -9,6 +9,9 @@ import {
     useCodexStateContext
 } from "../context/codexContext";
 import "./Form.css";
+
+const controlHeight: number = 50; // px
+const buttonStyle: IButtonStyles = { root: { minWidth: 150, height: controlHeight, fontSize: 23 } };
 
 export default function Form() {
     const serverUrl = `http://localhost:${process.env.SERVER_PORT}`;
@@ -110,25 +113,27 @@ export default function Form() {
 
     return (
         <>
-            <Stack className='commandDiv' horizontal tokens={{childrenGap:5}} horizontalAlign='start'>
+            <Stack className='commandDiv' horizontal tokens={{ childrenGap: 5 }} horizontalAlign='start'>
                 <TextField
                     componentRef={inputRef}
                     disabled={isSendingCommand}
                     onChange={(e,newValue) => setCurrentCommand(newValue)}
                     value={currentCommand}
-                    styles={{root:{minWidth:400}}}
+                    autoComplete="off"
+                    styles={{ root: { minWidth: "75%" }, fieldGroup: { height: controlHeight } }}
+                    inputClassName="nlInput"
                     onKeyUp={(k)=> k.code === "Enter" ? handleSubmit() : ()=>{}}
                     placeholder="Enter Natural Language Command (e.g. 'create a cube')"
                 />
                 <PrimaryButton
-                    styles={{root:{ minWidth:150}}}
+                    styles={buttonStyle}
                     disabled={isSendingCommand}
                     onClick={handleSubmit}
                 >
                     Enter
                 </PrimaryButton>
                 <DefaultButton
-                    styles={{root:{ minWidth:100}}}
+                    styles={buttonStyle}
                     disabled={isSendingCommand}
                     onClick={handleReset}
                 >

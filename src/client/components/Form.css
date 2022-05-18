@@ -9,11 +9,10 @@
 .commandDiv {
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    align-items: center;
     position: absolute;
     top: 0px;
     margin: 2%;
-    vertical-align: center;
     width: 60%;
 }
 
@@ -22,4 +21,8 @@
     top: 60px;
     margin-left: 20px;
     color: white
+}
+
+.nlInput {
+    font-size: 23px;
 }
