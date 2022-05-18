@@ -1,8 +1,8 @@
-# Babylex
+# Babylon Codex Prototype
 
 This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/):
 
-![Babylex GIF](babylex.gif)
+![Babylon Codex GIF](babylon-codex.gif)
 
 The project is made up of a React web application frontend with an [Express](https://expressjs.com/) backend.
 
@@ -16,7 +16,7 @@ This repository aims to grow the understanding of using Codex in applications by
 
 ## Running the App
 
-1. Clone the repo: `git clone https://github.com/microsoft/Babylex` and open the Babylex folder.
+1. Clone the repo: `git clone https://github.com/microsoft/Babylon-Codex` and open the `Babylon-Codex` folder.
 2. Create a `.env` file in the root directory of the project, copying the contents of the `.env.example` file. 
 3. In `.env`, provide the following configuration:
 
