@@ -119,6 +119,7 @@ export default function Form() {
                     disabled={isSendingCommand}
                     onChange={(e,newValue) => setCurrentCommand(newValue)}
                     value={currentCommand}
+                    autoComplete="off"
                     styles={{ root: { minWidth: "75%" }, fieldGroup: { height: controlHeight } }}
                     inputClassName="nlInput"
                     onKeyUp={(k)=> k.code === "Enter" ? handleSubmit() : ()=>{}}
