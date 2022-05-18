@@ -32,5 +32,5 @@ app.get("/reset", async (_req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Babylon Codex webapp listening at http://localhost:${port}`);
+    console.log(`Codex Babylon webapp listening at http://localhost:${port}`);
 });
