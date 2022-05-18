@@ -2,7 +2,7 @@
 
 This project converts natural language into 3D assets using [BabylonJS](https://www.babylonjs.com/) and OpenAI's [Codex](https://openai.com/blog/openai-codex/):
 
-![Codex Babylon GIF](Codex-Babylon.gif)
+![Codex Babylon GIF](codex-babylon.gif)
 
 The project is made up of a React web application frontend with an [Express](https://expressjs.com/) backend.
 
