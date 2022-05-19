@@ -41,7 +41,7 @@ export async function getCompletion(command: string) {
     // catch errors
     if (!response.ok) {
         //throw new Error(`${response.status} ${response.statusText}`);
-        var error = `There is an issue with your OpenAI credentials, please check your OpenAI API key, organization ID and model name. Modify the credentials and restart the server!`;
+        const error = `There is an issue with your OpenAI credentials, please check your OpenAI API key, organization ID and model name. Modify the credentials and restart the server!`;
         if (response.status == 404){
             console.log(error);
         }
