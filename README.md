@@ -64,13 +64,31 @@ The server and client code is under `src/`.
 
 ## Prompt Engineering
 
-Generative models like Codex are trained on the simple task of guessing the next token in a sequence. A good practice to coax the kind of tokens (code) you want from Codex is to include example interactions in a prompt - this practice is called few-shot prompt engineering. These examples are sent to the model with every API call, along with your natural language query. Codex then "guesses" the next tokens in the sequence (the code that satisfies the natural language).
+Generative models like Codex are trained on the simple task of guessing the next token in a sequence. A good practice to coax the kind of tokens (code) you want from Codex is to include context and example interactions in a prompt - this practice is called few-shot prompt engineering. These examples are sent to the model with every API call, along with your natural language query. Codex then "guesses" the next tokens in the sequence (the code that satisfies the natural language).
 
-This project currently contains multiple "contexts" - examples of what we expect from the model in the `contexts` folder. It also includes a `Context` class (see `Context.ts`) that offers several helpers for loading contexts and creating prompts. The contexts are currently modelled to represent a series of commands and the code that they generate. We define a prompt as a context plus a command, and this is what we pass to the model on each turn.
+This project currently contains "contexts" - examples of what we expect from the model in the `src/server/contexts` folder. A context consists of a description to the model of what will be in the prompt along with examples of Natural Language and the code it should produce. See snippet of `context1` from the `contexts` folder:
 
-As a user interacts with the experience, we update the context to include past commands and responses. On subsequent conversation turns, this gives the model the relevant context to do things like pronoun resolution (e.g. of "it" in "make it red").
 
-Currently a single ongoing context is maintained on the server. This can be reset with the "Reset" button in the app. The single context means that the app is currently not multi-tenanted, and that multiple browser instances will reuse the same context.
+```js
+/* This document contains natural language commands and the BabylonJS code needed to accomplish them */
+
+state = {};
+
+/* Make a cube */
+state.cube = BABYLON.MeshBuilder.CreateBox("cube", {size: 1}, scene);
+
+/* Move the cube up */
+state.cube.position.y += 1;
+
+/* Move it to the left */
+state.cube.position.x -= 1;
+```
+
+As you can see, the first line gives a description of the prompt (explaining to Codex that it should take natural language commands and produce BabylonJS code. It then shows a single line of contextual code, establishing the existence of a `state` object to be used by Codex. Finally, it gives several examples of natural language and code to give Codex a sense fo the kind of code it should write. These examples use the `state` object mentioned above to save new Babylon objects onto. It also establishes a kind of conversational interaction wiht the model, where a natural language command might refer to something created on a past turn ("Move it to..."). These examples help nudge the model to produce this kind of code on future turns. 
+
+The project also includes a `Context` class (see `Context.ts`) that offers several helpers for loading contexts and creating prompts. As a user interacts with the experience, we update the context to include past commands and responses. On subsequent conversation turns, this gives the model the relevant context to do things like pronoun resolution (e.g. of "it" in "make it red").
+
+Currently a single ongoing context is maintained on the server. This can be reset with the "Reset" button in the app. The single context means that the app is currently not multi-tenanted, and that multiple browser instances will reuse the same context. Note that prompts to Codex models can only be so long - as the prompt exceeds a certain token limit, the `Context` class will shorten the prompt from the beginning.
 
 ## Contributing
 
