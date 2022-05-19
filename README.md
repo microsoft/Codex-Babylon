@@ -11,8 +11,11 @@ This repository aims to grow the understanding of using Codex in applications by
 
 ## Requirements
 
-- Node.JS
-- Open AI API Key to make API calls against Codex
+* Node.JS
+* An [OpenAI account](https://openai.com/api/)
+    * [OpenAI API Key](https://beta.openai.com/account/api-keys).
+    * [OpenAI Organization Id](https://beta.openai.com/account/org-settings). If you have multiple organizations, please update your [default organization](https://beta.openai.com/account/api-keys) to the one that has access to codex engines before getting the organization Id.
+    * [OpenAI Engine Id](https://beta.openai.com/docs/engines/codex-series-private-beta). It provides access to a model. For example, `code-davinci-002` or `code-cushman-001`. See [here](#what-openai-engines-are-available-to-me) for checking available engines.
 
 ## Running the App
 
