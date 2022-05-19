@@ -68,8 +68,9 @@ export default function Form() {
                     if (codeDivRef.current != null) {
                         codeDivRef.current.innerText = "Potentially sensitive language detected in prompt or completion. Try another prompt using different language.";
                     }
-                }
-                else {
+                }else if (data.error && codeDivRef.current != null) {
+                            codeDivRef.current.innerText = data.error;
+                }else {
                     if (codeDivRef.current != null && currentCommand !== undefined) {
                         codeDivRef.current.innerText = data.code;
                         
