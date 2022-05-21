@@ -130,3 +130,6 @@ curl https://api.openai.com/v1/engines \
 ```
 curl --ssl-no-revoke https://api.openai.com/v1/engines --header OpenAI-Organization:YOUR_ORG_ID --oauth2-bearer YOUR_API_KEY
 ```
+
+### Can I run the sample on Azure?
+The sample code can be currently be used with Codex on OpenAI’s API. In the coming months, the sample will be updated to be used with the [Azure OpenAI Service](https://aka.ms/azure-openai). 
