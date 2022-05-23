@@ -132,4 +132,4 @@ curl --ssl-no-revoke https://api.openai.com/v1/engines --header OpenAI-Organizat
 ```
 
 ### Can I run the sample on Azure?
-The sample code can be currently be used with Codex on OpenAI’s API. In the coming months, the sample will be updated to be used with the [Azure OpenAI Service](https://aka.ms/azure-openai). 
+The sample code can be currently be used with Codex on OpenAI’s API. In the coming months, the sample will be updated so you can use it also with the [Azure OpenAI Service](https://aka.ms/azure-openai). 
