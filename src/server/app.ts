@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import { context, getCompletion } from "./model";
+import { promptEngine, getCompletion } from "./model";
 import cors from "cors";
 
 const app = express();
@@ -23,10 +23,10 @@ app.post("/codegen", async (req, res) => {
 
 // Gets natural language and returns code
 app.get("/reset", async (_req, res) => {
-    context.resetContext();
+    promptEngine.resetContext();
     res.send(
         JSON.stringify({
-            context: context.getContext()
+            context: promptEngine.buildContext()
         })
     );
 });

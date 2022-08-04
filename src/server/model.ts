@@ -1,22 +1,19 @@
 require("dotenv").config();
 import fetch from "isomorphic-fetch";
-
+import {CodeEngine} from 'prompt-engine'
 // Contains the helper methods for interacting with Codex and crafting model prompts
-import { baseContext } from "./contexts/context1";
-import Context from "./Context";
+import { promptDescription, promptExamples } from "./contexts/context1";
 import { detectSensitiveContent } from "./contentFiltering";
 
 const maxPromptLength = 3200;
 
 // CURRENTLY SINGLE TENANT - WOULD NEED TO UPDATE THIS TO A MAP OF TENANT IDs TO PROMPTS TO MAKE MULTI-TENANT
-export const context = new Context(baseContext);
+export const promptEngine: CodeEngine = new CodeEngine(promptDescription, promptExamples, {
+    maxTokens: maxPromptLength, 
+  });
 
 export async function getCompletion(command: string) {      
-    let prompt = context.getPrompt(command);
-
-    if (prompt.length > maxPromptLength) {
-        context.trimContext(maxPromptLength - command.length + 6); // The max length of the prompt, including the command, comment operators and spacing.
-    }
+    let prompt = promptEngine.buildPrompt(command);
 
     // To learn more about making requests to OpanAI API, please refer to https://beta.openai.com/docs/api-reference/making-requests.
     // Here we use the following endpoint pattern for engine selection.
@@ -65,7 +62,7 @@ export async function getCompletion(command: string) {
     }
     else {
         //only allow safe interactions to be added to the context history
-        context.addInteraction(command, code);
+        promptEngine.addInteraction(command, code);
     }    
 
     return {
