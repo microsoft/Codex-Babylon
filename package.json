@@ -16,10 +16,10 @@
   "license": "ISC",
   "dependencies": {
     "@fluentui/react": "^8.56.2",
-    "body-parser": "^1.19.1",
+    "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "dotenv": "^11.0.0",
-    "express": "^4.17.2",
+    "express": "^4.18.2",
     "isomorphic-fetch": "^3.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
