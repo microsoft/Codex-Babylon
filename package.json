@@ -29,7 +29,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@types/isomorphic-fetch": "0.0.36",
-    "babel-loader": "^8.2.3",
+    "babel-loader": "^8.3.0",
     "clean-webpack-plugin": "^4.0.0",
     "concurrently": "^7.0.0",
     "css-loader": "^6.5.1",
